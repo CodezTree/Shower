@@ -24,6 +24,9 @@ public class Rainny extends AppCompatActivity {
                 startActivity(intent2);
                 finish();
 
+
+                // So Cute Lol
+
         }
     }
 
