@@ -23,10 +23,6 @@ public class Rainny extends AppCompatActivity {
                 Intent intent2 = new Intent(Rainny.this, UserName.class);
                 startActivity(intent2);
                 finish();
-
-
-                // So Cute Lol
-
         }
     }
 
