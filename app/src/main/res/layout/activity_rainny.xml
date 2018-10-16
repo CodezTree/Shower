@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.please.khs.shower.Rainny">
+
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:scale_base_height="440"
+        app:scale_base_width="280">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="22"
+            app:scale_height="28"
+            app:scale_width="70"
+            app:scale_top="90"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumsquarer"
+            android:text="첫만남"
+            android:textColor="#FC8C94"/>
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:scale_height="180"
+            app:scale_width="180"
+            app:scale_top="120"
+            app:srcCompat="@drawable/rain700" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="290"
+            android:fontFamily="@font/nanumsquarer"
+            android:text="환영환영해요!! " />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="310"
+            android:fontFamily="@font/nanumsquarer"
+            android:text="저는 레인이예요! " />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="330"
+            android:fontFamily="@font/nanumsquarer"
+            android:text="여러분의 이름이 궁금해요!"/>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_height="30"
+            app:scale_width="60"
+            app:scale_top="400"
+            app:scale_left="210"
+            app:scale_textsize="14"
+            android:background="#00FF0000"
+            android:fontFamily="@font/nanumsquareb"
+            android:onClick="onClick"
+            android:text="NEXT >>"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="#FC8C94" />
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+</android.support.constraint.ConstraintLayout>
+

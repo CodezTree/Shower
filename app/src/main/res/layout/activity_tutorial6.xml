@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    tools:context="com.please.khs.shower.Tutorial.Tutorial6">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:scale_base_height="440"
+        app:scale_base_width="280">
+
+        <TextView
+            android:id="@+id/helloText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:text="#주의사항"
+            android:fontFamily="@font/nanumsquareeb"
+            android:textColor="#F5525E"
+            app:scale_textsize="20"
+            app:scale_left="70"
+            app:scale_top="40"
+            app:scale_width="136"
+            app:scale_height="22"/>
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:scale_height="160"
+            app:scale_width="160"
+            app:scale_top="60"
+            app:srcCompat="@drawable/rain700" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="소나기는요."
+            android:layout_gravity="center_horizontal"
+            android:textColor="#939191"
+            android:gravity="center"
+            app:scale_textsize="13"
+            app:scale_height="25"
+            app:scale_width="200"
+            app:scale_top="210" />
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="키보드에 입력된 문장들을 통해"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#939191"
+            android:gravity="center"
+            app:scale_textsize="13"
+            app:scale_height="25"
+            app:scale_width="200"
+            app:scale_top="232" />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="여러분의 감정을 알아 봐요."
+            android:textColor="#939191"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="25"
+            app:scale_width="200"
+            app:scale_top="257" />
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareeb"
+            android:text="그러니, 개인정보를 다룰 땐"
+            android:textColor="#fc8c94"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="16"
+            app:scale_height="25"
+            app:scale_width="200"
+            app:scale_top="295" />
+
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareeb"
+            android:text="꼭 키보드를 끄고 사용해 주세요!"
+            android:textColor="#fc8c94"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="16"
+            app:scale_height="25"
+            app:scale_width="250"
+            app:scale_top="316" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="bottom"
+            android:onClick="onClick"
+            android:text="START >>"
+            android:fontFamily="@font/nanumsquareb"
+            android:textColor="#FC8C94"
+            app:scale_height="30"
+            app:scale_width="80"
+            app:scale_top="400"
+            app:scale_left="200"
+            app:scale_textsize="14"/>
+
+        <TextView
+            android:id="@+id/text6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="*이로 인해 발생하는 모든 문제에 대한 책임은 본인에게 있습니다."
+            android:textColor="#c4c3c3"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="9"
+            app:scale_height="25"
+            app:scale_width="300"
+            app:scale_top="360" />
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+</LinearLayout>

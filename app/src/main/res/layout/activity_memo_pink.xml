@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/memoOuter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/memoradius_white"
+    android:foreground="@drawable/foreground_blur"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context="com.please.khs.shower.MemoData.MemoActivity">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/memoradius"
+        android:orientation="horizontal"
+        app:scale_base_height="35"
+        app:scale_base_width="280">
+
+        <TextView
+            android:id="@+id/emotiontext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nanumsquarel"
+            android:gravity="center"
+            android:text="감정"
+            android:textColor="#FFFFFF"
+            app:scale_height="35"
+            app:scale_textsize="14"
+            app:scale_width="100" />
+
+        <Button
+            android:id="@+id/closebutton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00ff0000"
+            android:fontFamily="@font/nanumsquarel"
+            android:gravity="center"
+            android:text="×"
+            android:textColor="#FFFFFF"
+            app:scale_height="35"
+            app:scale_left="235"
+            app:scale_textsize="30"
+            app:scale_width="40" />
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:scale_base_height="360"
+        app:scale_base_width="280">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:fontFamily="@font/nanumsquarer"
+            android:gravity="center"
+            android:text="2018. 04. 05. 03 : 00"
+            android:textColor="#939191"
+            app:scale_height="35"
+            app:scale_textsize="17"
+            app:scale_top="5"
+            app:scale_width="280" />
+
+        <EditText
+            android:id="@+id/memotext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#F7F4F4"
+            android:fontFamily="@font/nanumsquarel"
+            android:gravity="top"
+            android:hint="메모"
+            android:padding="15dp"
+            android:textColor="#939191"
+            app:scale_height="300"
+            app:scale_textsize="12"
+            app:scale_top="15"
+            app:scale_width="230" />
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:scale_base_height="28"
+        app:scale_base_width="260">
+
+        <Button
+            android:id="@+id/registerbtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/memobtn_pink"
+            android:fontFamily="@font/nanumsquarer"
+            android:text="등록하기"
+            app:scale_height="25"
+            app:scale_textsize="10"
+            app:scale_width="140"
+            tools:textColor="#FFFFFF" />
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+</LinearLayout>
+

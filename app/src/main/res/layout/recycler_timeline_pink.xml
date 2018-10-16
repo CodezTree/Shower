@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:scale_base_height="100"
+        app:scale_base_width="750">
+
+
+        <ImageView
+            android:id="@+id/timelineimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_height="90"
+            app:scale_left="10"
+            app:scale_width="70"
+            app:srcCompat="@drawable/timeline_pink" />
+
+        <TextView
+            android:id="@+id/memoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#707070"
+            android:fontFamily="@font/nanumsquarer"
+            app:scale_textsize="9"
+            app:scale_left="100"
+            app:scale_top="40"
+            app:scale_width="130"
+            app:scale_height="30"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+
+            android:fontFamily="@font/nanumsquarer"
+            app:scale_textsize="9"
+            app:scale_left="20"
+            app:scale_top="42"
+            app:scale_width="50"
+            app:scale_height="30"/>
+
+        <ImageView
+            android:id="@+id/leftPunc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_left="85"
+            app:scale_top="40"
+            app:scale_width="20"
+            app:scale_height="20"
+            app:srcCompat="@drawable/double_downpyo_pink" />
+
+        <ImageView
+            android:id="@+id/rightPunc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_height="20"
+            app:scale_left="220"
+            app:scale_top="40"
+            app:scale_width="20"
+            app:srcCompat="@drawable/double_downpyo_pink" />
+
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+</android.support.constraint.ConstraintLayout>
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    tools:context=".Tutorial1">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:scale_base_height="440"
+        app:scale_base_width="280">
+
+        <TextView
+            android:id="@+id/helloText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:fontFamily="@font/nanumsquareb"
+            android:gravity="center"
+            android:text="안녕하세요 ~~님!"
+            android:textColor="#FC8C94"
+            app:scale_height="22"
+            app:scale_left="70"
+            app:scale_textsize="18"
+            app:scale_top="100"
+            app:scale_width="150" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:scale_height="180"
+            app:scale_width="180"
+            app:scale_top="120"
+            app:srcCompat="@drawable/rainy500" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="반가워요!"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="290" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="310"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="지금부터 제가"
+            />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="330"
+            android:text="앱을 간단히 소개할거예요:)"
+            />
+
+        <TextView
+            android:id="@+id/text4"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="잘 들어줄거죠?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="13"
+            app:scale_height="28"
+            app:scale_width="200"
+            app:scale_top="350"/>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="bottom"
+            android:onClick="onClick"
+            android:text="Next >>"
+            android:fontFamily="@font/nanumsquareb"
+            android:textColor="#FC8C94"
+            app:scale_height="30"
+            app:scale_width="70"
+            app:scale_top="400"
+            app:scale_left="210"
+            app:scale_textsize="14"/>
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+</LinearLayout>

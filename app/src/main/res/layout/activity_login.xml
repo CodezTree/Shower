@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:gravity="top|bottom|center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.please.khs.shower.LoginActivity">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:scale_base_height="210"
+        app:scale_base_width="280">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:scale_height="80"
+            app:scale_top="10"
+            app:srcCompat="@drawable/pink_logo" />
+
+        <TextView
+            android:id="@+id/Sonagi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nanumsquareb"
+            android:gravity="center"
+            android:text="소 나 기"
+            android:textColor="#FC8C94"
+            app:scale_textsize="15"
+            app:scale_height="20"
+            app:scale_top="70"
+            app:scale_width="70" />
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:scale_base_height="40"
+        app:scale_base_width="280"
+
+        android:layout_gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/ID_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            app:scale_height="25"
+            app:scale_width="20"
+            app:scale_left="40"
+            app:scale_top="5"
+            app:srcCompat="@drawable/pink_account" />
+
+        <EditText
+            android:id="@+id/ID_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/nanumsquareb"
+            android:hint="ID"
+            android:textColorHint="#FC8C94"
+            android:textColor="#FC8C94"
+            android:singleLine = "true"
+            android:lines = "1"
+            android:inputType="textEmailAddress"
+            app:scale_textsize="10"
+            android:layout_gravity="left"
+            app:scale_height="27"
+            app:scale_left="70"
+            app:scale_top="5"
+            app:scale_width="170" />
+        <requestFocus/>
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:scale_base_height="40"
+        app:scale_base_width="280"
+        >
+
+        <ImageView
+            android:id="@+id/PW_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            app:scale_height="25"
+            app:scale_width="20"
+            app:scale_left="40"
+            app:scale_top="10"
+            app:srcCompat="@drawable/pink_password" />
+
+        <EditText
+            android:id="@+id/PW_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:singleLine = "true"
+            android:lines = "1"
+            android:layout_gravity="start"
+            android:hint="@string/pass"
+            android:textColorHint="#FC8C94"
+            android:textColor="#FC8C94"
+            app:scale_textsize="10"
+            app:scale_height="27"
+            app:scale_left="70"
+            app:scale_top="10"
+            app:scale_width="170" />
+
+
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:scale_base_height="100"
+        app:scale_base_width="280">
+
+        <Button
+            android:id="@+id/Login_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
+            android:fontFamily="@font/nanumsquareeb"
+            android:text="log In"
+            android:textColor="#FFFFFF"
+            app:scale_textsize="10"
+            app:scale_height="26"
+            app:scale_width="200"
+            app:scale_top="12"/>
+
+        <Button
+            android:id="@+id/signup_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="#00FF0000"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="sign up"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="#FC8C94"
+            app:scale_textsize="8"
+            app:scale_width="40"
+            app:scale_height="20"
+            app:scale_top="40"
+            app:scale_left="86"/>
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+</LinearLayout>

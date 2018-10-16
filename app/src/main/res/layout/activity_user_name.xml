@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.please.khs.shower.Request.UserName"
+    android:orientation="vertical">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:scale_base_height="440"
+        app:scale_base_width="280">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical"
+            app:scale_textsize="13"
+            app:scale_height="25"
+            app:scale_width="200"
+            app:scale_top="140"
+            android:textColor="#FC8C94"
+            android:text="이름을 입력해주세요!" />
+
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:singleLine = "true"
+            android:lines = "1"
+            app:scale_textsize="10"
+            app:scale_height="45"
+            app:scale_width="200"
+            app:scale_top="170"
+            android:hint="ex) 홍길동" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_height="30"
+            app:scale_width="60"
+            app:scale_top="400"
+            app:scale_left="210"
+            app:scale_textsize="14"
+            android:background="@android:color/transparent"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:onClick="onClick"
+            android:text="NEXT >>"
+            android:textColor="#FF819B"/>
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+</android.support.constraint.ConstraintLayout>
