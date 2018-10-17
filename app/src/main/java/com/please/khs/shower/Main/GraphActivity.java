@@ -39,8 +39,12 @@ import com.please.khs.shower.SONAGIListAdapter;
 import com.please.khs.shower.SONAGIMarkerView;
 import com.please.khs.shower.SONAGIService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GraphActivity extends AppCompatActivity {
     private long time = 0;
@@ -368,6 +372,12 @@ public class GraphActivity extends AppCompatActivity {
         lineChart.setDescription(description);
         lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
+
+        // test
+
+        DateFormat dateFormat = new SimpleDateFormat("HH", Locale.KOREA);
+        Date now = new Date();
+        Toast.makeText(getApplicationContext(), dateFormat.format(now), Toast.LENGTH_LONG).show();
     }
 
     public void refreshGraphData() {  // GraphRefresh

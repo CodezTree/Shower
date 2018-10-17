@@ -197,7 +197,8 @@ public class SoftKeyboard extends InputMethodService
                 // fileWriter.flush();
                 inputSaveTemp += msg;
 
-                if (inputSaveTemp.length() > 50) {
+                if (inputSaveTemp.length() > 100) {
+                    // 100 자 단위로 감정분석 처리한다... 라기 보다는 100자 넘었을때 띄어쓰기.. 맞구나!
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(mBroadcastProcessMsgActionService);
                     broadcastIntent.putExtra("msgData", inputSaveTemp);
@@ -302,15 +303,11 @@ public class SoftKeyboard extends InputMethodService
      */
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {  // PendingIntent 받을 때 StartOnCommand
         if (intent != null) {
             String action = intent.getAction();
             if (CommandActions.TOGGLE.equals(action)) {
-                if (recording) {
-                    recording = false;
-                } else {
-                    recording = true;
-                }
+                recording = !recording;
                 showAlarm(); // Reset Alarm
             }
         }
@@ -448,7 +445,7 @@ public class SoftKeyboard extends InputMethodService
         //Log.d("keyEvent : ", "keyboard Window hidden : "+mComposing.toString());
     }
 
-    @Override public void onFinishInput() { //TODO: NO USEEEEEEEEE
+    @Override public void onFinishInput() {
         super.onFinishInput();
     	// Log.v(TAG,"onFinishInput ---- enter");
         
@@ -796,11 +793,7 @@ public class SoftKeyboard extends InputMethodService
      * Helper to determine if a given character code is alphabetic.
      */
     private boolean isAlphabet(int code) {
-        if (Character.isLetter(code)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Character.isLetter(code);
     }
     
     /**

@@ -42,12 +42,14 @@ public class SONAGIService extends Service {
         // globalClass.Sdb.createTable(globalClass.Sqdb, globalClass.TBadge); 아직 배지는 지원 안함
         SONAGIGlobalClass.Sdb = new SONAGIDatabase(getApplicationContext(), "SONAGI", null, 1);
 
+
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(mBroadcastProcessMsgActionService);
         mIntentFilter.addAction(mBroadcastContentActionService);
         mIntentFilter.addAction("tester");
+        // Broadcast intent 확인할 Intent Filter를 추가.
 
-        registerReceiver(mReceiver, mIntentFilter);
+        registerReceiver(mReceiver, mIntentFilter); // mReceiver = BroadcastReceiver
 
         contentWorker cW = new contentWorker();
         cW.start(); // Start Thread
@@ -86,11 +88,12 @@ public class SONAGIService extends Service {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+            String action = intent.getAction(); // intent string 값
             if (action != null) {
                 switch (action) {
                     case mBroadcastProcessMsgActionService:
                         String msg = intent.getStringExtra("msgData");
+                        Log.d("Broadcast : ", msg);
                         processMsg(msg);
                         break;
                     case mBroadcastContentActionService:

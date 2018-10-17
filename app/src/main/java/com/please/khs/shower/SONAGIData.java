@@ -4,12 +4,15 @@ package com.please.khs.shower;
 import java.util.Date;
 
 public class SONAGIData {
+    /*
+    해당 정점에 대한 처리 된 메시지, 시간(처리시간), 처리된 감정
+    */
     public String dateTime;
     public String msg;
     public int emotion;
-    //int processed; // 필요할지는 모르겠음
-    public SONAGIData() {
 
+    public SONAGIData() {
+        // empty creator
     }
 
     public SONAGIData(String time, String msg, int emotion) {
