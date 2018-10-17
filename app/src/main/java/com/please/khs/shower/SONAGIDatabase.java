@@ -6,9 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.EditText;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class SONAGIDatabase extends SQLiteOpenHelper{
@@ -36,8 +40,47 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
     public void putMsgDataProcessed(String time, String msg, int emotion) {
         /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
         String strTime = df.format(time);*/
+
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "INSERT INTO tableEmotion ( time, msg, emotion, processed ) VALUES ( ?, ?, ?, 1 )";
+
+        String query = "SELECT time, msg FROM tableEmotion ORDER BY time DESC limit 1";  // 가장 최근의 감정정보 불러오기
+        String loadedTime = "";
+        String loadedMsg = "";
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            while(cursor.moveToNext()) {
+                try {
+                     loadedTime = cursor.getString(0);
+                     loadedMsg = cursor.getString(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            cursor.close();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH", Locale.KOREA);
+
+            Date now = new Date();
+            Date tempDate = dateFormat.parse(loadedTime);
+
+            long diff = now.getTime() - tempDate.getTime();
+            if (diff == 0) {  // 처리된 시간단위가 같다면
+
+                // UPDATE 구문으로 msg 추가시켜주고, emotion을 최신 으로 업데이트 시켜준다
+
+            } else {
+
+                // 그냥 emotionData를 추가해준다. 또한 모든 메모는 Hour 단위로 저장이 된다. 그러니 신경 ㄱㅊ
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql = "INSERT INTO tableEmotion ( time, msg, emotion ) VALUES ( ?, ?, ?)";
 
         db.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
         Log.d("test", "msg data inserted");
@@ -84,7 +127,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         } */
 
-        String query = String.format("SELECT time, emotion, msg FROM tableEmotion WHERE processed == 1 AND time >= %s AND time <= %s", timeStart, timeEnd);
+        String query = String.format("SELECT time, emotion, msg FROM tableEmotion WHERE time >= %s AND time <= %s", timeStart, timeEnd);
 
         ArrayList<SONAGIData> tempArr = new ArrayList<>();
 
