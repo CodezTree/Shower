@@ -15,74 +15,10 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
     private Context context;
 
     /*
-    // databaseName을 입력하여 해당 이름을 가진 데이터베이스를 생성. 만약에 이미 존재한다면 그
-    // 데이터베이스를 자동으로 불러온다. (반환값은 SQLiteDatabase 이다)
-    // databaseName은 sharedPreference로 저장해놓고 꺼내다 쓰는 것을 추천.
-    public SQLiteDatabase loadOrCreateDatabase(String databaseName) {
-        SQLiteDatabase sqliteDB = null;
-        if (databaseName != null) {
-            try {
-                sqliteDB = SQLiteDatabase.openOrCreateDatabase(databaseName,);
-            } catch (SQLiteException e) {
-                e.printStackTrace();
-            }
-        } else {
-            return null;
-        }
-
-        return sqliteDB;
-    }
-
-    // 데이터를 저장할 테이블을 만들어 준다. (반환값은 없다)
-    // 딱 한번만 실행하고, tableName도 sharedPreference에 저장해 두는게 좋다.
-    public void createEmotionTable(SQLiteDatabase sqliteDB, String tableName) {
-        String sql = String.format("CREATE TABLE IF NOT EXISTS %s (time DATETIME, msg VARCHAR(500), emotion INT, processed INT)", tableName);
-
-        try {
-            sqliteDB.execSQL(sql);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void createMemoTable(SQLiteDatabase sqliteDB, String tableName) {
-        String sql = String.format("CREATE TABLE IF NOT EXISTS %s (time DATETIME, memo VARCHAR(1000), emotion INT",tableName);
-
-        try {
-            sqliteDB.execSQL(sql);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /// ------------------- WHAT??
-
-    // 수집한 메시지 데이터를 저장하는 함수.
-    // sqliteDB 의 tableName의 테이블에다 msg를 저장한다. 이때, time은 자동으로 저장되는 시점의 시간을
-    // 저장하고, emotion은 -1 ( 처리되지 않음 ), processed (처리여부) 는 0 ( 처리안됨 ) 을 지정해준다.
-    public int putMsgData(String msg) {
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-        String time = sdf.format(date);
-
-        String sql = String.format("INSERT INTO %s ( time, msg, emotion, processed ) VALUES ( %s, %s, -1, 0)", tableName, time, msg);
-        try {
-            sqliteDB.execSQL(sql);
-            return 1; // 정상적으로 처리됨
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            return -1; // 비정상적인 처리
-        }
-    }
-
-    */
-
     public int updateMsgDataByTime(SQLiteDatabase sqliteDB, String tableName, String time, int emotion) {
-        /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        // DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
 
-        String strTime = df.format(time);*/
+        // String strTime = df.format(time);
         String sql = String.format("UPDATE %s SET emotion=%s, processed=-1 WHERE time=%s", tableName, Integer.toString(emotion), time);
 
         try {
@@ -92,7 +28,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
             return -1;
         }
-    }
+    }*/
 
     /// ------------------- WHAT??
 
@@ -113,8 +49,13 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = getWritableDatabase();
         String sql = "INSERT INTO tableMemo ( time, msg, emotion ) VALUES (?, ?, ?)";
 
-        db.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
+        db.execSQL(sql, new Object[]{time, msg, Integer.toString(emotion) });
         Log.d("test", "memo data inserted");
+    }
+
+    public void editMemoData(String time, String msg) {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "UPDATE tableMemo SET msg WHERE time = %s";
     }
 
     // sqliteDB를 이용해 tableName의 테이블 안에서 timeStart ~ timeEnd 까지의 메시지, 감정, 타입을 묶은 SONAGIData ArrayList를 반환함.
@@ -164,10 +105,12 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        cursor.close();
 
         return tempArr;
     }
 
+    // getLastestEmotionData
     public SONAGIData getLatestEmotion() {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -199,9 +142,10 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         return tempData;
     }
 
+    // DB Creation
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String emotionSql = "CREATE TABLE IF NOT EXISTS tableEmotion (time DATETIME, msg VARCHAR(500), emotion INT, processed INT)";
+        String emotionSql = "CREATE TABLE IF NOT EXISTS tableEmotion (time DATETIME, msg VARCHAR(500), emotion INT)";
         String memoSql = "CREATE TABLE IF NOT EXISTS tableMemo (time DATETIME, memo VARCHAR(1000), emotion INT)";
 
         db.execSQL(emotionSql);
