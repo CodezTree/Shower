@@ -32,12 +32,11 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
     /// ------------------- WHAT??
 
+
     public void putMsgDataProcessed(String time, String msg, int emotion) {
         /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
         String strTime = df.format(time);*/
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT time FROM tableEmotion ORDER BY time DESC LIMIT 1";
-
         String sql = "INSERT INTO tableEmotion ( time, msg, emotion, processed ) VALUES ( ?, ?, ?, 1 )";
 
         db.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
@@ -85,7 +84,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         } */
 
-        String query = String.format("SELECT time, emotion, msg FROM tableEmotion WHERE time >= %s AND time <= %s", timeStart, timeEnd);
+        String query = String.format("SELECT time, emotion, msg FROM tableEmotion WHERE processed == 1 AND time >= %s AND time <= %s", timeStart, timeEnd);
 
         ArrayList<SONAGIData> tempArr = new ArrayList<>();
 
