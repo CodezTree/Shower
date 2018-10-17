@@ -55,8 +55,6 @@ public class MemoActivity extends AppCompatActivity {
             setContentView(R.layout.activity_memo_pink);
         }
 
-        /* 여기는 메모 쓰는 공간입니다. */
-
 
         // 1. 디스플레이 화면 사이즈 구하기
         Display dp = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
