@@ -61,7 +61,10 @@
             android:label="@string/title_activity_slide" />
         <activity
             android:name=".SlideGoActivity"
-            android:label="@string/title_activity_slide_go"></activity>
+            android:label="@string/title_activity_slide_go" />
+        <activity
+            android:name=".Slide"
+            android:label="@string/title_activity_slide"></activity>
     </application>
 
 </manifest>
