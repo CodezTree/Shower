@@ -18,7 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SlideGoActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Slide extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -33,7 +33,7 @@ public class SlideGoActivity extends Activity implements NavigationDrawerFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slide_go);
+        setContentView(R.layout.activity_slide);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -97,14 +97,14 @@ public class SlideGoActivity extends Activity implements NavigationDrawerFragmen
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_slide_go, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_slide, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((SlideGoActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+            ((Slide) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 
