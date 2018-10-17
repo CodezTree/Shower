@@ -71,18 +71,20 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             if (diff == 0) {  // 처리된 시간단위가 같다면
 
                 // UPDATE 구문으로 msg 추가시켜주고, emotion을 최신 으로 업데이트 시켜준다
+                String sql = String.format(Locale.KOREA, "UPDATE tableMemo SET time = %s, msg = %s, emotion = %d WHERE time = %s", time, loadedMsg + msg, emotion, loadedTime); // Locale 왜 쓰는지 알아보기. Warning 이유
+                db.execSQL(sql);
 
             } else {
 
                 // 그냥 emotionData를 추가해준다. 또한 모든 메모는 Hour 단위로 저장이 된다. 그러니 신경 ㄱㅊ  아자아자
+                String sql = "INSERT INTO tableEmotion ( time, msg, emotion ) VALUES ( ?, ?, ?)";
+
+                db.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String sql = "INSERT INTO tableEmotion ( time, msg, emotion ) VALUES ( ?, ?, ?)";
-
-        db.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
         Log.d("test", "msg data inserted");
     }
 
@@ -96,9 +98,11 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         Log.d("test", "memo data inserted");
     }
 
-    public void editMemoData(String time, String msg) {
+    public void editMemoData(String time, String memo) {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "UPDATE tableMemo SET msg WHERE time = %s";
+        String sql = String.format("UPDATE tableMemo SET msg WHERE time = %s", memo);
+
+        db.execSQL(sql);
     }
 
     // sqliteDB를 이용해 tableName의 테이블 안에서 timeStart ~ timeEnd 까지의 메시지, 감정, 타입을 묶은 SONAGIData ArrayList를 반환함.
