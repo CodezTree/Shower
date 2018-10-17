@@ -74,7 +74,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
             } else {
 
-                // 그냥 emotionData를 추가해준다. 또한 모든 메모는 Hour 단위로 저장이 된다. 그러니 신경 ㄱㅊ
+                // 그냥 emotionData를 추가해준다. 또한 모든 메모는 Hour 단위로 저장이 된다. 그러니 신경 ㄱㅊ  아자아자
 
             }
         } catch (Exception e) {
