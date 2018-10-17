@@ -33,8 +33,6 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
     /// ------------------- WHAT??
 
 
-
-    //push할꺼다아응
     public void putMsgDataProcessed(String time, String msg, int emotion) {
         /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
         String strTime = df.format(time);*/
