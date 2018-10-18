@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/memoOuter"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/memoradius_white"
     android:foreground="@drawable/foreground_blur"
-    android:gravity="top"
+    android:gravity="center"
+    android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context="com.please.khs.shower.MemoData.MemoActivity">
+    tools:context="com.please.khs.shower.MemoActivity">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="match_parent"
@@ -51,8 +52,10 @@
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:scale_base_height="360"
-        app:scale_base_width="280">
+        app:scale_base_height="340"
+        app:scale_base_width="280"
+        android:layout_gravity="center"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/dateText"
@@ -65,7 +68,7 @@
             android:textColor="#939191"
             app:scale_height="35"
             app:scale_textsize="17"
-            app:scale_top="5"
+            app:scale_top="3"
             app:scale_width="280" />
 
         <EditText
@@ -79,7 +82,7 @@
             android:hint="메모"
             android:padding="15dp"
             android:textColor="#939191"
-            app:scale_height="300"
+            app:scale_height="290"
             app:scale_textsize="12"
             app:scale_top="15"
             app:scale_width="230" />
@@ -89,8 +92,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:scale_base_height="28"
-        app:scale_base_width="260">
+        android:gravity="center"
+        app:scale_base_height="30"
+        app:scale_base_width="300">
 
         <Button
             android:id="@+id/registerbtn"
@@ -100,12 +104,21 @@
             android:background="@drawable/memobtn_pink"
             android:fontFamily="@font/nanumsquarer"
             android:text="등록하기"
-            app:scale_height="25"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            app:scale_height="30"
             app:scale_textsize="10"
-            app:scale_width="140"
+            app:scale_width="180"
             tools:textColor="#FFFFFF" />
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
-
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:scale_base_height="15"
+        app:scale_base_width="300">
+    </com.ssomai.android.scalablelayout.ScalableLayout>
 </LinearLayout>
 
