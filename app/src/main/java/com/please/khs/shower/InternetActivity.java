@@ -20,7 +20,7 @@ public class InternetActivity extends Activity {
         urlIntent.setData(u);
         startActivity(urlIntent);
 
-        finish();
+        finish(); // End this Activity when showing is over
     }
 
 }

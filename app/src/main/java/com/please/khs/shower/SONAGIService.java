@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.IBinder;
@@ -32,14 +31,7 @@ public class SONAGIService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        /*
-        SONAGIGlobalClass.Sdb = new SONAGIDatabase(); // 소나기 DB 불러오기
 
-        SONAGIGlobalClass.Sqdb = SONAGIGlobalClass.Sdb.loadOrCreateDatabase("sonagi.db");
-        SONAGIGlobalClass.Sdb.createEmotionTable(SONAGIGlobalClass.Sqdb, SONAGIGlobalClass.TEmotion); // Create Emotion Table
-        SONAGIGlobalClass.Sdb.createMemoTable(SONAGIGlobalClass.Sqdb, SONAGIGlobalClass.TMemo);
-        */
-        // globalClass.Sdb.createTable(globalClass.Sqdb, globalClass.TBadge); 아직 배지는 지원 안함
         SONAGIGlobalClass.Sdb = new SONAGIDatabase(getApplicationContext(), "SONAGI", null, 1);
 
 
@@ -151,8 +143,7 @@ public class SONAGIService extends Service {
                 Log.d("test", "URL : " + data[1]);
                 // data URL parcel and broadcast..?? NOPE Pending
                 PendingIntent pendingIntent = PendingIntent.getActivity(SONAGIService.this, 0, actionContent, PendingIntent.FLAG_UPDATE_CURRENT);
-                //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-                // TODO : Re do here
+
                 Notification.Builder mNotificationBuilder = new Notification.Builder(getApplicationContext());
                 mNotificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.xs_logo))
                         .setDefaults(Notification.DEFAULT_ALL)
@@ -195,14 +186,5 @@ public class SONAGIService extends Service {
             }
         }
     }
-
-
-    // 이녀석은 왜...??
-    public String getStringSharedPreferences(String key) {
-        SharedPreferences pref = getSharedPreferences("app", MODE_PRIVATE);
-        return pref.getString(key, null);
-    }
-
-
 
 }

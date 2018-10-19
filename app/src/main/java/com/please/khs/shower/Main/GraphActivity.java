@@ -1,5 +1,6 @@
 package com.please.khs.shower.Main;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -117,6 +118,7 @@ public class GraphActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")  // 노란색 워닝 보기 실어서
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +189,8 @@ public class GraphActivity extends AppCompatActivity {
 
         registerReceiver(mReceiver, mIntentFilter);
 
+
+        // 감정 심화도 리스트
         SONAGIGlobalClass.emotionSet.add("우울함");
         SONAGIGlobalClass.emotionSet.add("짜증");
         SONAGIGlobalClass.emotionSet.add("긴장");
@@ -203,23 +207,23 @@ public class GraphActivity extends AppCompatActivity {
         entries.add(new Entry(1, 1));
         entries.add(new Entry(2, 2));
         entries.add(new Entry(3, 7));
-        entries.add(new Entry(4, 4.5f));
-        entries.add(new Entry(5, 4.5f));
+        entries.add(new Entry(4, 5));
+        entries.add(new Entry(5, 5));
         entries.add(new Entry(6, 8));
         entries.add(new Entry(7, 3));
         entries.add(new Entry(8, 2));
         entries.add(new Entry(9, 5));
         entries.add(new Entry(10, 7));
         entries.add(new Entry(11, 1));
-        entries.add(new Entry(12, 4.5f));
-        entries.add(new Entry(13, 4.5f));
+        entries.add(new Entry(12, 5));
+        entries.add(new Entry(13, 4));
         entries.add(new Entry(14, 6));
         entries.add(new Entry(15, 5));
         entries.add(new Entry(16, 4));
         entries.add(new Entry(17, 1));
         entries.add(new Entry(18, 8));
         entries.add(new Entry(19, 6));
-        entries.add(new Entry(20, 4.5f));
+        entries.add(new Entry(20, 4));
         entries.add(new Entry(21, 1));
         entries.add(new Entry(22, 7));
         entries.add(new Entry(23, 6));
@@ -238,6 +242,8 @@ public class GraphActivity extends AppCompatActivity {
         lineDataSet.setDrawValues(false);
         lineDataSet.setHighlightLineWidth(2);
 
+        lineDataSet.removeLast()
+
         lineDataSet.setHighlightEnabled(true);
 
         LineData lineData = new LineData(lineDataSet);
@@ -248,9 +254,12 @@ public class GraphActivity extends AppCompatActivity {
         lineChart.setDoubleTapToZoomEnabled(false);
         lineChart.setTouchEnabled(true);
         lineChart.setDrawMarkers(true);
+
+        // 그래프 확대 축소 안되게
         lineChart.setPinchZoom(false);
         lineChart.getViewPortHandler().setMaximumScaleX((float)entries.size() / 7);
         lineChart.getViewPortHandler().setMinimumScaleX((float)entries.size() / 7);
+
         lineChart.setHighlightPerTapEnabled(true);
         lineChart.setHighlightPerDragEnabled(false);
         lineChart.setOnTouchListener(new View.OnTouchListener() {
