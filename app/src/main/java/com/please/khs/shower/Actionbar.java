@@ -3,6 +3,7 @@ package com.please.khs.shower;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -33,6 +34,7 @@ public class Actionbar extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Actionbar.this, ComingSoon.class);
+                Log.d("setting check", "check..");
                 startActivity(intent);
             }
         });

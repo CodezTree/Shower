@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="com.please.khs.shower.SignUpActivity.SignUp1Activity"
-    tools:layout_editor_absoluteY="25dp">
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context="com.please.khs.shower.SignUpActivity.SignUp1Activity">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        app:scale_base_height="440"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:scale_base_height="40"
         app:scale_base_width="280">
 
         <TextView
             android:id="@+id/signUpTextMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:scale_textsize="20"
-            app:scale_height="28"
-            app:scale_width="80"
-            app:scale_top="22"
-            app:scale_left="26"
-            android:contentDescription="@string/app_name"
             android:fontFamily="@font/nanumsquareeb"
             android:text="이용약관"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textColor="#FC8C94" />
+            android:textColor="#FC8C94"
+            app:scale_height="22"
+            app:scale_left="26"
+            app:scale_textsize="18"
+            app:scale_width="80" />
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:scale_base_height="180"
+        app:scale_base_width="280">
+
         <TextView
             android:id="@+id/signUpText1"
             android:layout_width="wrap_content"
@@ -37,7 +49,6 @@
             app:scale_textsize="9"
             app:scale_height="20"
             app:scale_width="80"
-            app:scale_top="65"
             app:scale_left="26"
             android:text="이용약관(1)"
             android:textColor="#515151"
@@ -52,14 +63,14 @@
             app:scale_textsize="9"
             app:scale_width="230"
             android:layout_gravity="center_horizontal"
-            app:scale_top="85">
+            app:scale_top="25">
 
-        <TextView
-            android:id="@+id/signUpTextBox1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="소나기 이용약관
+            <TextView
+                android:id="@+id/signUpTextBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="소나기 이용약관
 소나기는 다양한 계층의 SNS 사용자들의 활동들로부터 감정을 분석해 그에 알맞은 컨텐츠를 제공하는 어플리케이션입니다. 소나기는 서비스 이용자의 원활한 서비스 이용을 도모하기 위하여 본 서비스와 함께 약관을 제공합니다. 소나기는 이용자에게 약관을 검토 할 수 있는 합리적인 기회를 제공하였으며 회원은 본 약관에 동의하였음을 확인합니다.
 제 1 장 총 칙
 제1조 (목적)
@@ -203,9 +214,9 @@
 Sonagi.
 아산시 탕정면로 77번길, 충남삼성고
 "
-android:background="#F5F5F5" />
+                android:background="#F5F5F5" />
 
-    </ScrollView>
+        </ScrollView>
 
         <CheckBox
             android:id="@+id/checkBox1"
@@ -216,11 +227,19 @@ android:background="#F5F5F5" />
             android:textColor="#515151"
             app:scale_height="30"
             app:scale_width="80"
-            app:scale_top="205"
+            app:scale_top="145"
             app:scale_left="84"
             app:scale_textsize="9"
             android:layout_gravity="center_horizontal"
             android:buttonTint="#575757"/>
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:scale_base_height="205"
+        app:scale_base_width="280">
 
         <TextView
             android:id="@+id/signUpText2"
@@ -229,7 +248,6 @@ android:background="#F5F5F5" />
             app:scale_textsize="9"
             app:scale_height="20"
             app:scale_width="80"
-            app:scale_top="230"
             app:scale_left="26"
             android:text="이용약관(2)"
             android:textColor="#515151"
@@ -242,7 +260,7 @@ android:background="#F5F5F5" />
             android:layout_gravity="center_horizontal"
             app:scale_height="30"
             app:scale_width="80"
-            app:scale_top="370"
+            app:scale_top="145"
             app:scale_left="84"
             app:scale_textsize="9"
             android:fontFamily="@font/nanumsquarer"
@@ -256,7 +274,7 @@ android:background="#F5F5F5" />
             android:layout_height="wrap_content"
             app:scale_height="30"
             app:scale_width="90"
-            app:scale_top="400"
+            app:scale_top="175"
             app:scale_left="200"
             app:scale_textsize="14"
             android:background="@android:color/transparent"
@@ -269,22 +287,22 @@ android:background="#F5F5F5" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:scale_textsize="9"
             app:scale_height="120"
-            app:scale_top="250"
+            app:scale_textsize="9"
             app:scale_width="230"
-            android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/signUpTextBox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="#F5F5F5"
-            android:text="@string/yak"
- />
+            app:scale_top="25">
+
+            <TextView
+                android:id="@+id/signUpTextBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#F5F5F5"
+                android:text="@string/yak"
+                />
 
         </ScrollView>
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

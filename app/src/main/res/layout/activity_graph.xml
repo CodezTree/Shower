@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFC"
+    android:layout_gravity="top"
+    android:orientation="vertical"
+    android:gravity="top"
     android:theme="@style/AppBarTheme"
     tools:context=".Main.GraphActivity"
     tools:layout_keyline="#FDABA9">
@@ -13,8 +17,7 @@
         android:id="@+id/scalableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="top"
         app:scale_base_height="180"
         app:scale_base_width="270">
 
@@ -22,58 +25,50 @@
             android:id="@+id/chart"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            app:scale_width="270"
+            android:layout_gravity="top"
             app:scale_height="180"
-            >
+            app:scale_width="270">
 
         </com.github.mikephil.charting.charts.LineChart>
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
-
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:id="@+id/scalableLayout2"
         android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:scale_base_height="25"
-        app:scale_base_width="260">
-
+        app:scale_base_width="270">
 
         <Button
             android:id="@+id/hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="bottom"
             android:background="#00FF0000"
             android:fontFamily="@font/nanumsquareb"
             android:gravity="center"
             android:text="1시간"
             android:textColor="#FF819B"
             app:scale_height="25"
-            app:scale_textsize="10"
-            app:scale_width="130" />
+            app:scale_textsize="8"
+            app:scale_width="135" />
 
 
         <Button
             android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="bottom|right"
             android:background="#00FF0000"
             android:fontFamily="@font/nanumsquareb"
             android:gravity="center"
             android:text="하루"
             android:textColor="#FF819B"
             app:scale_height="25"
-            app:scale_textsize="10"
-            app:scale_width="130" />
+            app:scale_textsize="8"
+            app:scale_width="135" />
 
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
@@ -83,23 +78,21 @@
         android:id="@+id/scalableLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout2">
-
-
+        app:scale_base_width="270"
+        app:scale_base_height="180"
+        >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#F6F6F6"
             app:scale_textsize="10"
-            app:scale_width="260">
+            app:scale_height="180"
+            app:scale_width="270"
+            >
 
         </android.support.v7.widget.RecyclerView>
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

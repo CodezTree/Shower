@@ -57,12 +57,6 @@
         <activity android:name=".Actionbar" />
         <activity android:name=".Setting" />
         <activity
-            android:name=".SlideActivity"
-            android:label="@string/title_activity_slide" />
-        <activity
-            android:name=".SlideGoActivity"
-            android:label="@string/title_activity_slide_go" />
-        <activity
             android:name=".Slide"
             android:label="@string/title_activity_slide"></activity>
     </application>
