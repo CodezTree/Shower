@@ -1,5 +1,6 @@
 package com.please.khs.shower;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -38,14 +39,17 @@ public class MemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        
+
         //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //TODO: 팝업 액티비티 생성
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);  //상단바 제거
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //액티비티 둥근모양으로
-//ColorDrawable(Color.TRANSPARENT)
+
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//왜 안대..
+
         final Intent intent = getIntent();
         int e = intent.getIntExtra("emotion",0);
         if (e > 0 && e < 5) {

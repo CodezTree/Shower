@@ -242,7 +242,7 @@ public class GraphActivity extends AppCompatActivity {
         lineDataSet.setDrawValues(false);
         lineDataSet.setHighlightLineWidth(2);
 
-        lineDataSet.removeLast()
+        lineDataSet.removeLast();
 
         lineDataSet.setHighlightEnabled(true);
 
