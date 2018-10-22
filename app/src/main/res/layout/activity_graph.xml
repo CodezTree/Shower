@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFC"
-    android:theme="@style/AppBarTheme"
+    android:theme="@style/AppTheme"
     tools:context=".Main.GraphActivity"
     tools:layout_keyline="#FDABA9">
 

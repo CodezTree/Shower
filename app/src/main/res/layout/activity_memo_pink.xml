@@ -9,7 +9,7 @@
     android:foreground="@drawable/foreground_blur"
     android:gravity="top"
     android:orientation="vertical"
-    tools:context="com.please.khs.shower.MemoData.MemoActivity">
+    tools:context="com.please.khs.shower.MemoActivity">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="match_parent"
