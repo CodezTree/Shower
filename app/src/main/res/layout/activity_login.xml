@@ -6,15 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:gravity="top|bottom|center_horizontal"
     android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
     tools:context="com.please.khs.shower.LoginActivity">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:scale_base_height="210"
-        app:scale_base_width="280">
+        app:scale_base_height="160"
+        app:scale_base_width="280"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/imageView"
@@ -22,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:scale_height="80"
-            app:scale_top="10"
             app:srcCompat="@drawable/pink_logo" />
 
         <TextView
@@ -36,17 +37,23 @@
             android:textColor="#FC8C94"
             app:scale_textsize="15"
             app:scale_height="20"
-            app:scale_top="70"
+            app:scale_top="60"
             app:scale_width="70" />
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:scale_base_height="20"
+        app:scale_base_width="280"
+        android:gravity="center">
+    </com.ssomai.android.scalablelayout.ScalableLayout>
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:scale_base_height="40"
         app:scale_base_width="280"
-
         android:layout_gravity="center_horizontal">
 
         <ImageView

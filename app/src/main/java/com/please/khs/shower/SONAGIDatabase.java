@@ -67,7 +67,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             Date now = new Date();
             Date tempDate = dateFormat.parse(loadedTime);
 
-            long diff = now.getTime() - tempDate.getTime();
+            long diff = (now.getTime() / (now.getTime() % (1000 * 60 * 60))) - (tempDate.getTime() / (tempDate.getTime() % (1000 * 60 * 60))); // 한시간 단위 아래 초는 다 잘라버리기
             if (diff == 0) {  // 처리된 시간단위가 같다면
 
                 // UPDATE 구문으로 msg 추가시켜주고, emotion을 최신 으로 업데이트 시켜준다
@@ -89,8 +89,14 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
     }
 
     public void putMemoData(String time, String msg, int emotion) {
-        /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-        String strTime = df.format(time);*/
+
+        /*
+        *
+        * 시간 단위로 확인하고 이미 그 시간때(1시간) 존재한다면 기존 msg에 추가되도록 한다. (약간 수정의 느낌도 있게)
+        *
+        * */
+
+
         SQLiteDatabase db = getWritableDatabase();
         String sql = "INSERT INTO tableMemo ( time, msg, emotion ) VALUES (?, ?, ?)";
 
@@ -105,7 +111,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         db.execSQL(sql);
     }
 
-    // sqliteDB를 이용해 tableName의 테이블 안에서 timeStart ~ timeEnd 까지의 메시지, 감정, 타입을 묶은 SONAGIData ArrayList를 반환함.
+    // sqliteDB를 이용해 tableName의 테이블 안에서 timeStart ~ timeEnd 까지의 메시지, 감정, 타입을 묶은 SONAGIData ArrayList를 반환함. -> DataRefresh에 사용될 예정이다.
     // timeStart, timeEnd의 형식은 "2018-9-15 09:20:15" 와 같아야 함.
     public ArrayList<SONAGIData> getEmotionDataListFromTime(SQLiteDatabase sqliteDB, String tableName, String timeStart, String timeEnd) {
         // String sqlQuery = String.format("SELECT time, emotion, msg FROM %s WHERE processed == 1 AND time >= %s AND time <= %s", tableName, timeStart, timeEnd);
@@ -157,7 +163,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         return tempArr;
     }
 
-    // getLastestEmotionData
+    // getLastestEmotionData -> 사용자 컨텐츠 추천에 사용된다.
     public SONAGIData getLatestEmotion() {
         SQLiteDatabase db = getReadableDatabase();
 

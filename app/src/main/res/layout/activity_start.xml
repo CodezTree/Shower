@@ -7,20 +7,23 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
     tools:context="com.please.khs.shower.StartActivity">
 
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
+            app:scale_top="23"
             app:scale_height="25"
-            app:scale_top="15"
             app:srcCompat="@drawable/pink_logo" />
 
         <ImageView
@@ -29,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             app:scale_height="25"
-            app:scale_top="38"
+            app:scale_top="12"
             app:scale_width="170"
             app:srcCompat="@drawable/calli_logo" />
 

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="50dp"
+    android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="#FFFFFF">
@@ -10,6 +10,9 @@
         android:id="@id/memoText"
         android:layout_width="match_parent"
         android:layout_height="25dp"
+        android:fontFamily="@font/nanumsquareeb"
+        android:textSize="9sp"
+        android:gravity="center"
         android:textAlignment="center"/>
 
     <Button
@@ -18,6 +21,8 @@
         android:layout_height="25dp"
         android:background="#f97b7b"
         android:text="Memo"
+        android:layout_gravity="center"
+        android:fontFamily="@font/nanumsquareeb"
         android:textColor="@color/white"
-        android:textSize="10sp" />
+        android:textSize="9sp" />
 </LinearLayout>
