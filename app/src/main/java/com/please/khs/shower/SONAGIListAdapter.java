@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.ViewHolder> {
     Context context;
     ArrayList<MemoData> memoList;
-    ArrayList<MemoData> timeList;
 
     public SONAGIListAdapter(Context context, ArrayList<MemoData> memoList) {
         this.context = context;
@@ -26,7 +25,7 @@ public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_timeline_pink, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_timeline, null);
 
         return new ViewHolder(v);
     }

@@ -41,7 +41,6 @@ public class MemoActivity extends AppCompatActivity {
         //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //TODO: 팝업 액티비티 생성
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);  //상단바 제거
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //액티비티 둥근모양으로

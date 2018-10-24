@@ -426,7 +426,7 @@ public class SoftKeyboard extends InputMethodService
     	// Log.v(TAG,"onStartInput ---- leave");
 }
 
-    @Override public void onFinishInputView(boolean finishingInput) { //TODO: NOOOOOO USE
+    @Override public void onFinishInputView(boolean finishingInput) {
         super.onFinishInputView(finishingInput);
     	// Log.v(TAG,"onFinishInputView ---- enter");
     	if (kauto.IsKoreanMode())

@@ -50,8 +50,9 @@ import java.util.Locale;
 public class GraphActivity extends AppCompatActivity {
     private long time = 0;
     private LineChart lineChart;
+    public static int startHours = 0;  // for calculating formatter
     Button memobtn;
-    TextView txtResult;
+    TextView txtResult, tv_hour;
     List<Entry> entries;
     IntentFilter mIntentFilter;
 
@@ -72,7 +73,7 @@ public class GraphActivity extends AppCompatActivity {
         intent.putExtra("timeOrder", timeOrder);
         intent.putExtra("time", SONAGIGlobalClass.graphData.get(timeOrder).dateTime);
         intent.putExtra("emotion", SONAGIGlobalClass.graphData.get(timeOrder).emotion);
-        // TODO : get 이 null 인경우도 처리...
+        // TODO : get 이 null 인경우도 처리...?? ==> 뭐죠
         startActivityForResult(intent, 3000);
     }
 
@@ -107,7 +108,7 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent) { // TODO : Check this line working?
         super.onNewIntent(intent);
         Log.d("test","on New Intent");
 
@@ -137,6 +138,8 @@ public class GraphActivity extends AppCompatActivity {
 
         madapter = new SONAGIListAdapter(GraphActivity.this, SONAGIGlobalClass.memoData);
         RV.setAdapter(madapter);
+
+        tv_hour = (TextView)findViewById(R.id.tv_hour);
 
         Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
         startService(intent);
@@ -183,14 +186,15 @@ public class GraphActivity extends AppCompatActivity {
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 22:00:00", "아", 7));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 23:00:00", "아", 6));
 
-        // TODO : 정점 데이터 여기서 더미 만들자
+
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction("memoBroad");
 
         registerReceiver(mReceiver, mIntentFilter);
 
 
-        // 감정 심화도 리스트
+        // 감정 심화도 리스트 ------------------------ 수정 X --------------------
+
         SONAGIGlobalClass.emotionSet.add("우울함");
         SONAGIGlobalClass.emotionSet.add("짜증");
         SONAGIGlobalClass.emotionSet.add("긴장");
@@ -200,9 +204,15 @@ public class GraphActivity extends AppCompatActivity {
         SONAGIGlobalClass.emotionSet.add("행복");
         SONAGIGlobalClass.emotionSet.add("즐거움");
 
+        // 감정 심화도 리스트 ------------------------ 수정 X --------------------
+
+
+
         lineChart = (LineChart)findViewById(R.id.chart);
 
+        // ------------ dummmy data
         entries = new ArrayList<>(); // Dummy data
+        entries.add(new Entry(-1 , 5));
         entries.add(new Entry(0, 6));
         entries.add(new Entry(1, 1));
         entries.add(new Entry(2, 2));
@@ -227,6 +237,7 @@ public class GraphActivity extends AppCompatActivity {
         entries.add(new Entry(21, 1));
         entries.add(new Entry(22, 7));
         entries.add(new Entry(23, 6));
+        // dummy data --------
 
         LineDataSet lineDataSet = new LineDataSet(entries, "나의 감정");//라벨은 line이 무엇을 나타내는지
         lineDataSet.setLineWidth(1);
@@ -241,8 +252,6 @@ public class GraphActivity extends AppCompatActivity {
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawValues(false);
         lineDataSet.setHighlightLineWidth(2);
-
-        lineDataSet.removeLast()
 
         lineDataSet.setHighlightEnabled(true);
 
@@ -262,6 +271,8 @@ public class GraphActivity extends AppCompatActivity {
 
         lineChart.setHighlightPerTapEnabled(true);
         lineChart.setHighlightPerDragEnabled(false);
+
+        // Memo 버튼 클릭 Listener
         lineChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -287,49 +298,6 @@ public class GraphActivity extends AppCompatActivity {
             }
 
         });
-
-
-        /*lineChart.setOnChartGestureListener(new OnChartGestureListener() {
-            @Override
-            public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-            }
-
-            @Override
-            public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-            }
-
-            @Override
-            public void onChartLongPressed(MotionEvent me) {
-
-            }
-
-            @Override
-            public void onChartDoubleTapped(MotionEvent me) {
-
-            }
-
-            @Override
-            public void onChartSingleTapped(MotionEvent me) {
-
-            }
-
-            @Override
-            public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-                // User Here to Dynamic Data Adding
-            }
-
-            @Override
-            public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-
-            }
-
-            @Override
-            public void onChartTranslate(MotionEvent me, float dX, float dY) {
-
-            }
-        });*/
 
         // Marker View
         SONAGIMarkerView mv = new SONAGIMarkerView(this, R.layout.graph_marker);
@@ -382,11 +350,35 @@ public class GraphActivity extends AppCompatActivity {
         lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
 
+        // ----- for debug
+        debugX dbX = new debugX();
+        dbX.start();
+        // ----- for debug
+
+
         // test
 
         DateFormat dateFormat = new SimpleDateFormat("HH", Locale.KOREA);
         Date now = new Date();
         Toast.makeText(getApplicationContext(), dateFormat.format(now), Toast.LENGTH_LONG).show();
+    }
+
+    // Thread 부분 재수정 해서 확인하기
+    public class debugX extends Thread {
+        public debugX(){
+        }
+
+        public void run(){
+            while(true) {
+                tv_hour.setText(String.format(Locale.getDefault(), "%f", lineChart.getX()));
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.d("getX : ", "hi");
+            }
+        }
     }
 
     public void refreshGraphData() {  // GraphRefresh
