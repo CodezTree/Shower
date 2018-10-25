@@ -79,10 +79,12 @@ public class GraphActivity extends AppCompatActivity {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("logging :","broadcast received!!");
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
-                    case "memoBroad":
+                    case "memoBoard":
+                        Log.d("logging : ", "memoBoard");
                         showMemoActivity(intent.getIntExtra("timeOrder",0));
                     default:
                         Log.d("test", "Unknown Intent Name " + action);
@@ -98,6 +100,7 @@ public class GraphActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 3000:
+                    Log.d("testplease :","data add");
                     // SONAGIGlobalClass.memoData.put(data.getIntExtra("timeOrder", 0), new MemoData(data.getStringExtra("time"), data.getStringExtra("memo"), data.getIntExtra("emotion", 0)));
                     SONAGIGlobalClass.memoData.add(new MemoData(data.getStringExtra("time"), data.getStringExtra("memo"), data.getIntExtra("emotion", 0)));
                     // DATABASE SAVE LATER
@@ -185,7 +188,7 @@ public class GraphActivity extends AppCompatActivity {
 
         // TODO : 정점 데이터 여기서 더미 만들자
         mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction("memoBroad");
+        mIntentFilter.addAction("memoBoard");
 
         registerReceiver(mReceiver, mIntentFilter);
 

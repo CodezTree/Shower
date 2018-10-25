@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.ViewHolder> {
     Context context;
     ArrayList<MemoData> memoList;
-    ArrayList<MemoData> timeList;
 
     public SONAGIListAdapter(Context context, ArrayList<MemoData> memoList) {
         this.context = context;
@@ -34,6 +33,7 @@ public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MemoData memData = memoList.get(position);
+        Log.d("Touch", "gogogopoleas");
 
         holder.memo_text.setText(memData.memo);
         holder.time_text.setText(memData.time.substring(11, 19));

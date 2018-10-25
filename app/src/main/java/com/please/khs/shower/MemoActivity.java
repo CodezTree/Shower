@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MemoActivity extends AppCompatActivity {
-    private AlertDialog dialog;
+    private Dialog memodialog = null;
     TextView textViewDate;
     Button rgisbtn, closebtn;
     EditText memoText;
@@ -33,13 +34,17 @@ public class MemoActivity extends AppCompatActivity {
     private int deviceWidth, deviceHeight;
     private LinearLayout blue_layout;
 
+    private PopupWindow mPopupWindow ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("logging :","memo popup");
 
-        
+
+
+        /*Window window = getWindow();
 
         //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -53,12 +58,10 @@ public class MemoActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         int e = intent.getIntExtra("emotion",0);
         if (e > 0 && e < 5) {
-            //if (데이터 속 감정이 슬픔 쪽이라면){   }
             setContentView(R.layout.activity_memo_blue);//memo bule pink
         } else {
             setContentView(R.layout.activity_memo_pink);
         }
-
 
         // 1. 디스플레이 화면 사이즈 구하기
         Display dp = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -73,10 +76,25 @@ public class MemoActivity extends AppCompatActivity {
         // 3. 현재 화면에 적용
         getWindow().getAttributes().width = width;
         getWindow().getAttributes().height = height;
+        */
+
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);  //상단바 제거
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //액티비티 둥근모양으로
+
+        final Intent intent = getIntent();
+        int e = intent.getIntExtra("emotion",0);
+        if (e > 0 && e < 5) {
+            setContentView(R.layout.activity_memo_blue);//memo bule pink
+        } else {
+            setContentView(R.layout.activity_memo_pink);
+        }
 
         // 액티비티 바깥화면이 클릭되어도 종료되지 않게 설정하기
         this.setFinishOnTouchOutside(false);
-
 
         memoText = findViewById(R.id.memotext);
 
@@ -101,7 +119,7 @@ public class MemoActivity extends AppCompatActivity {
         closebtn.setOnClickListener(new View.OnClickListener() {  //close했을 때 저장안할꺼냐고 dialog 띄우기
             @Override
             public void onClick(View v) {
-                Log.d("before finish","memo" );  //두 번 눌러야 꺼짐, 로그는 두 번 다 찍힘 근데뭔가 이상...
+                Log.d("before finish","memo");  //두 번 눌러야 꺼짐, 로그는 두 번 다 찍힘 근데뭔가 이상...
                 finish();
             }
         });

@@ -35,7 +35,8 @@
         <activity android:name=".Fragment_main" />
         <activity android:name=".Tutorial.Tutorial6" />
         <activity android:name=".ComingSoon" />
-        <activity android:name=".MemoActivity" />
+        <activity android:name=".MemoActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" />
 
         <service
             android:name=".SONAGIService"
