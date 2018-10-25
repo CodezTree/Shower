@@ -18,43 +18,27 @@ import java.util.Locale;
 public class SONAGIDatabase extends SQLiteOpenHelper{
     private Context context;
 
-    /*
-    public int updateMsgDataByTime(SQLiteDatabase sqliteDB, String tableName, String time, int emotion) {
-        // DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-
-        // String strTime = df.format(time);
-        String sql = String.format("UPDATE %s SET emotion=%s, processed=-1 WHERE time=%s", tableName, Integer.toString(emotion), time);
-
-        try {
-            sqliteDB.execSQL(sql);
-            return 1;
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }*/
-
-    /// ------------------- WHAT??
-
-
-    public void putMsgDataProcessed(String time, String msg, int emotion) {
+    public void putMsgData(String time, String msg, int emotion) {
         /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
         String strTime = df.format(time);*/
 
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase wdb = getWritableDatabase();
+        SQLiteDatabase rdb = getWritableDatabase();
 
         String query = "SELECT time, msg FROM tableEmotion ORDER BY time DESC limit 1";  // 가장 최근의 감정정보 불러오기
         String loadedTime = "";
         String loadedMsg = "";
         try {
-            Cursor cursor = db.rawQuery(query, null);
-            while(cursor.moveToNext()) {
-                try {
-                     loadedTime = cursor.getString(0);
-                     loadedMsg = cursor.getString(1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            Cursor cursor = rdb.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    try {
+                        loadedTime = cursor.getString(0);
+                        loadedMsg = cursor.getString(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } while(cursor.moveToNext());
             }
             cursor.close();
         } catch (SQLiteException e) {
@@ -67,19 +51,18 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             Date now = new Date();
             Date tempDate = dateFormat.parse(loadedTime);
 
-            long diff = (now.getTime() / (now.getTime() % (1000 * 60 * 60))) - (tempDate.getTime() / (tempDate.getTime() % (1000 * 60 * 60))); // 한시간 단위 아래 초는 다 잘라버리기
-            if (diff == 0) {  // 처리된 시간단위가 같다면
+            long diff = cutToHour(now.getTime()) - cutToHour(tempDate.getTime()); // 한시간 단위 아래 초는 다 잘라버리기
 
+            if (diff == 0) {  // 처리된 시간단위가 같다면
                 // UPDATE 구문으로 msg 추가시켜주고, emotion을 최신 으로 업데이트 시켜준다
                 String sql = String.format(Locale.KOREA, "UPDATE tableMemo SET time = %s, msg = %s, emotion = %d WHERE time = %s", time, loadedMsg + msg, emotion, loadedTime); // Locale 왜 쓰는지 알아보기. Warning 이유
-                db.execSQL(sql);
-
+                wdb.execSQL(sql);
             } else {
 
                 // 그냥 emotionData를 추가해준다. 또한 모든 메모는 Hour 단위로 저장이 된다. 그러니 신경 ㄱㅊ  아자아자
                 String sql = "INSERT INTO tableEmotion ( time, msg, emotion ) VALUES ( ?, ?, ?)";
 
-                db.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
+                wdb.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
 
             }
         } catch (Exception e) {
@@ -88,72 +71,114 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         Log.d("test", "msg data inserted");
     }
 
-    public void putMemoData(String time, String msg, int emotion) {
+    public void putMemoData(String time, String memo, int emotion) {
 
-        /*
-        *
-        * 시간 단위로 확인하고 이미 그 시간때(1시간) 존재한다면 기존 msg에 추가되도록 한다. (약간 수정의 느낌도 있게)
-        *
-        * */
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH", Locale.KOREA);
 
+        Date now = new Date(); // 현재 시간
+        Date recentDate = new Date();
 
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "INSERT INTO tableMemo ( time, msg, emotion ) VALUES (?, ?, ?)";
+        SQLiteDatabase wdb = getWritableDatabase();
+        SQLiteDatabase rdb = getReadableDatabase();
 
-        db.execSQL(sql, new Object[]{time, msg, Integer.toString(emotion) });
-        Log.d("test", "memo data inserted");
+        String query = "SELECT time FROM tableMemo ORDER BY time DESC limit 1";
+        String tempTime = null;
+
+        try {
+            Cursor cursor = rdb.rawQuery(query, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    tempTime = cursor.getString(0);
+                } while(cursor.moveToNext());
+            }
+
+            recentDate = dateFormat.parse(tempTime);
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (cutToHour(now.getTime()) - cutToHour(recentDate.getTime()) == 0) {   // recent memo exists
+            // Update Memo
+            String sql = String.format("UPDATE tableMemo SET memo='%s' WHERE time=%s", memo, time);
+            wdb.execSQL(sql);
+            Log.d("test", "updated memo data");
+        } else {
+            // Add New Memo
+            String sql = "INSERT INTO tableMemo ( time, memo, emotion ) VALUES (?, ?, ?)";
+
+            wdb.execSQL(sql, new Object[]{time, memo, Integer.toString(emotion) });
+            Log.d("test", "new memo data");
+        }
     }
 
+    private long cutToHour(long time) {
+        return time - (time % (60 * 60 * 1000));
+    }
+
+    /*
     public void editMemoData(String time, String memo) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase wdb = getWritableDatabase();
         String sql = String.format("UPDATE tableMemo SET msg WHERE time = %s", memo);
 
-        db.execSQL(sql);
+        wdb.execSQL(sql);
+    }*/
+
+    public ArrayList<MemoData> getMemoDataListFromTime(String timeStart, String timeEnd) {
+
+        String query = String.format("SELECT time, memo, emotion  FROM tableMemo WHERE time >= %s AND time <= %s", timeStart, timeEnd);
+
+        ArrayList<MemoData> tempArr = new ArrayList<>();
+
+        SQLiteDatabase rdb = getReadableDatabase();
+
+        Cursor cursor;
+        MemoData tempData = new MemoData();
+        try {
+            cursor = rdb.rawQuery(query, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    tempData.time = cursor.getString(0);
+                    tempData.memo = cursor.getString(1);
+                    tempData.emotion = Integer.parseInt(cursor.getString(2));
+
+                    tempArr.add(tempData);
+                } while (cursor.moveToNext());
+            }
+            // get memo data list
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tempArr;
     }
 
     // sqliteDB를 이용해 tableName의 테이블 안에서 timeStart ~ timeEnd 까지의 메시지, 감정, 타입을 묶은 SONAGIData ArrayList를 반환함. -> DataRefresh에 사용될 예정이다.
     // timeStart, timeEnd의 형식은 "2018-9-15 09:20:15" 와 같아야 함.
-    public ArrayList<SONAGIData> getEmotionDataListFromTime(SQLiteDatabase sqliteDB, String tableName, String timeStart, String timeEnd) {
-        // String sqlQuery = String.format("SELECT time, emotion, msg FROM %s WHERE processed == 1 AND time >= %s AND time <= %s", tableName, timeStart, timeEnd);
+    public ArrayList<SONAGIData> getEmotionDataListFromTime(String timeStart, String timeEnd) {
 
-        /*Cursor cursor = null;
-
-        ArrayList<SONAGIData> tempArr = new ArrayList<>();
-
-        try {
-            cursor = sqliteDB.rawQuery(sqlQuery, null);
-            SONAGIData tempSAD = new SONAGIData();
-            while(cursor.moveToNext()) {
-                try {
-                    tempSAD.dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA).parse(cursor.getString(0));
-                    tempSAD.emotion = cursor.getInt(1);
-                    tempSAD.msg = cursor.getString(2);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            cursor.close();
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-        } */
-
-        String query = String.format("SELECT time, emotion, msg FROM tableEmotion WHERE time >= %s AND time <= %s", timeStart, timeEnd);
+        String query = String.format("SELECT time, msg, emotion FROM tableEmotion WHERE time >= %s AND time <= %s", timeStart, timeEnd);
 
         ArrayList<SONAGIData> tempArr = new ArrayList<>();
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase rdb = getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = rdb.rawQuery(query, null);
         SONAGIData sonagiData = null;
 
         try {
-            while(cursor.moveToNext()) {
-                sonagiData = new SONAGIData();
-                sonagiData.dateTime = cursor.getString(0);
-                sonagiData.msg = cursor.getString(1);
-                sonagiData.emotion = cursor.getInt(2);
+            if (cursor.moveToFirst()) {
+                do {
+                    sonagiData = new SONAGIData();
+                    sonagiData.dateTime = cursor.getString(0);
+                    sonagiData.msg = cursor.getString(1);
+                    sonagiData.emotion = cursor.getInt(2);
 
-                tempArr.add(sonagiData);
+                    tempArr.add(sonagiData);
+                } while(cursor.moveToNext());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +190,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
     // getLastestEmotionData -> 사용자 컨텐츠 추천에 사용된다.
     public SONAGIData getLatestEmotion() {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase rdb = getReadableDatabase();
 
         SONAGIData tempData = new SONAGIData();
         String sqlQuery = "SELECT * FROM tableEmotion ORDER BY time DESC limit 1";
@@ -173,16 +198,13 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         tempData.dateTime = null;
 
         try {
-            Cursor cursor = db.rawQuery(sqlQuery, null);
-            while(cursor.moveToNext()) {
-                try {
-                    tempData.dateTime = cursor.getString(0);
-                    tempData.msg = cursor.getString(1);
-                    tempData.emotion = cursor.getInt(2);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            Cursor cursor = rdb.rawQuery(sqlQuery, null);
+            if (cursor.moveToFirst()) {
+                tempData.dateTime = cursor.getString(0);
+                tempData.msg = cursor.getString(1);
+                tempData.emotion = cursor.getInt(2);
             }
+
             cursor.close();
         } catch (SQLiteException e) {
             e.printStackTrace();

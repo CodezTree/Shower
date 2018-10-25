@@ -10,4 +10,8 @@ public class MemoData {
         this.memo = memo;
         this.emotion = emotion;
     }
+
+    public MemoData() {
+
+    }
 }

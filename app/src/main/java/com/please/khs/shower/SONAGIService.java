@@ -118,7 +118,7 @@ public class SONAGIService extends Service {
                     String processTime = sdf.format(new Date(System.currentTimeMillis()));
                     int processedEmotion = Integer.parseInt(response);
 
-                    SONAGIGlobalClass.Sdb.putMsgDataProcessed(processTime, fmsg, processedEmotion);
+                    SONAGIGlobalClass.Sdb.putMsgData(processTime, fmsg, processedEmotion);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
