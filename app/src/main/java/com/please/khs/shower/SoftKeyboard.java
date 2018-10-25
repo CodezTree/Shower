@@ -197,7 +197,7 @@ public class SoftKeyboard extends InputMethodService
                 // fileWriter.flush();
                 inputSaveTemp += msg;
 
-                if (inputSaveTemp.length() > 100) {
+                if (inputSaveTemp.length() > 20) {
                     // 100 자 단위로 감정분석 처리한다... 라기 보다는 100자 넘었을때 띄어쓰기.. 맞구나!
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(mBroadcastProcessMsgActionService);

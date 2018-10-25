@@ -81,6 +81,7 @@ public class SONAGIService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction(); // intent string 값
+            Log.d("test", action);
             if (action != null) {
                 switch (action) {
                     case mBroadcastProcessMsgActionService:
@@ -107,7 +108,7 @@ public class SONAGIService extends Service {
     // SONAGI Data Process
     public void processMsg(String msg) {
         final String fmsg = msg;
-        String processedMsg;
+        final String processedMsg;
         // Request using Volley
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
@@ -119,6 +120,7 @@ public class SONAGIService extends Service {
                     int processedEmotion = Integer.parseInt(response);
 
                     SONAGIGlobalClass.Sdb.putMsgData(processTime, fmsg, processedEmotion);
+                    Log.d("test","process time : "+processTime+"  emotion : "+Integer.toString(processedEmotion));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

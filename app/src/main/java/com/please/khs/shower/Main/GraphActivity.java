@@ -60,13 +60,8 @@ public class GraphActivity extends AppCompatActivity {
     RecyclerView RV;
 
     SONAGIListAdapter madapter;
-    /*
-    Intent memointent = new Intent(GraphActivity.this, MemoActivity.class);
-        memointent.putExtra("mintent",  ); //감정num
 
-        MemoButton
-
-    */
+    Boolean endLogging = false;
 
     public void showMemoActivity(int timeOrder) {
         Intent intent = new Intent(GraphActivity.this, MemoActivity.class);
@@ -350,9 +345,30 @@ public class GraphActivity extends AppCompatActivity {
         lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
 
-        // ----- for debug
-        debugX dbX = new debugX();
-        dbX.start();
+        // ----- for debug GOOD!
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while(true) {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                tv_hour.setText(String.format(Locale.KOREA, "%f", lineChart.getX()));
+                            }
+                        });
+
+                        Thread.sleep(100);
+
+                        if (endLogging) {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
         // ----- for debug
 
 
@@ -363,6 +379,7 @@ public class GraphActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), dateFormat.format(now), Toast.LENGTH_LONG).show();
     }
 
+    /*
     // Thread 부분 재수정 해서 확인하기
     public class debugX extends Thread {
         public debugX(){
@@ -379,7 +396,7 @@ public class GraphActivity extends AppCompatActivity {
                 Log.d("getX : ", "hi");
             }
         }
-    }
+    }*/
 
     public void refreshGraphData() {  // GraphRefresh
 
