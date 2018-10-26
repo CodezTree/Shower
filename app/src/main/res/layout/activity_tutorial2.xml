@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="com.example.khs.shower.com.please.khs.shower.Fragment_main"
+    tools:context="com.please.khs.shower.Fragment_main"
     android:orientation="vertical">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
