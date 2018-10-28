@@ -83,7 +83,5 @@
             app:scale_width="20"
             app:scale_left="125"
             app:srcCompat="@drawable/double_downpyo_pink" />
-
-
     </com.ssomai.android.scalablelayout.ScalableLayout>
 </LinearLayout>

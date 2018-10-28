@@ -50,7 +50,6 @@ import java.util.Locale;
 public class GraphActivity extends AppCompatActivity {
     private long time = 0;
     private LineChart lineChart;
-    public static int startHours = 0;  // for calculating formatter
     Button memobtn;
     TextView txtResult, tv_hour;
     List<Entry> entries;
@@ -75,10 +74,12 @@ public class GraphActivity extends AppCompatActivity {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("logging :","broadcast received!!");
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
-                    case "memoBroad":
+                    case "memoBoard":
+                        Log.d("logging : ", "memoBoard");
                         showMemoActivity(intent.getIntExtra("timeOrder",0));
                     default:
                         Log.d("test", "Unknown Intent Name " + action);
@@ -103,7 +104,7 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) { // TODO : Check this line working?
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d("test","on New Intent");
 
@@ -183,13 +184,12 @@ public class GraphActivity extends AppCompatActivity {
 
 
         mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction("memoBroad");
+        mIntentFilter.addAction("memoBoard");
 
         registerReceiver(mReceiver, mIntentFilter);
 
 
-        // 감정 심화도 리스트 ------------------------ 수정 X --------------------
-
+        // 감정 심화도 리스트
         SONAGIGlobalClass.emotionSet.add("우울함");
         SONAGIGlobalClass.emotionSet.add("짜증");
         SONAGIGlobalClass.emotionSet.add("긴장");
@@ -199,15 +199,9 @@ public class GraphActivity extends AppCompatActivity {
         SONAGIGlobalClass.emotionSet.add("행복");
         SONAGIGlobalClass.emotionSet.add("즐거움");
 
-        // 감정 심화도 리스트 ------------------------ 수정 X --------------------
-
-
-
         lineChart = (LineChart)findViewById(R.id.chart);
 
-        // ------------ dummmy data
         entries = new ArrayList<>(); // Dummy data
-        entries.add(new Entry(-1 , 5));
         entries.add(new Entry(0, 6));
         entries.add(new Entry(1, 1));
         entries.add(new Entry(2, 2));
@@ -378,25 +372,6 @@ public class GraphActivity extends AppCompatActivity {
         Date now = new Date();
         Toast.makeText(getApplicationContext(), dateFormat.format(now), Toast.LENGTH_LONG).show();
     }
-
-    /*
-    // Thread 부분 재수정 해서 확인하기
-    public class debugX extends Thread {
-        public debugX(){
-        }
-
-        public void run(){
-            while(true) {
-                tv_hour.setText(String.format(Locale.getDefault(), "%f", lineChart.getX()));
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                Log.d("getX : ", "hi");
-            }
-        }
-    }*/
 
     public void refreshGraphData() {  // GraphRefresh
 

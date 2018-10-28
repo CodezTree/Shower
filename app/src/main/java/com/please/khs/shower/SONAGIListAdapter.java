@@ -33,6 +33,7 @@ public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MemoData memData = memoList.get(position);
+        Log.d("Touch", "gogogopoleas");
 
         holder.memo_text.setText(memData.memo);
         holder.time_text.setText(memData.time.substring(11, 19));

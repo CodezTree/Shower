@@ -96,7 +96,8 @@ public class SONAGIMarkerView extends MarkerView{
 
         Log.d("test", "perform click");
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("memoBroad");
+        Log.d("logging :", "new Intent..!");
+        broadcastIntent.setAction("memoBoard");
         broadcastIntent.putExtra("timeOrder", timeOrder);
         Ccontext.sendBroadcast(broadcastIntent);
 
