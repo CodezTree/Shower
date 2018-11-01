@@ -33,53 +33,6 @@
 
 
     <com.ssomai.android.scalablelayout.ScalableLayout
-        android:id="@+id/scalableLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout"
-        app:scale_base_height="25"
-        app:scale_base_width="260">
-
-
-        <Button
-            android:id="@+id/tv_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:background="#00FF0000"
-            android:fontFamily="@font/nanumsquareb"
-            android:gravity="center"
-            android:text="1시간"
-            android:textColor="#FF819B"
-            app:scale_height="25"
-            app:scale_textsize="10"
-            app:scale_width="130" />
-
-
-        <Button
-            android:id="@+id/tv_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="#00FF0000"
-            android:fontFamily="@font/nanumsquareb"
-            android:gravity="center"
-            android:text="하루"
-            android:textColor="#FF819B"
-            app:scale_height="25"
-            app:scale_textsize="10"
-            app:scale_width="130" />
-
-
-    </com.ssomai.android.scalablelayout.ScalableLayout>
-
-
-    <com.ssomai.android.scalablelayout.ScalableLayout
         android:id="@+id/scalableLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,7 +40,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/scalableLayout">
 
 
         <android.support.v7.widget.RecyclerView

@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getPreferencesString("Email")!=null) {//처음 로그인할 때에는 아무것도 없음
+                if (getPreferencesString("Email")==null) {//처음 로그인할 때에는 아무것도 없음
                     String Email = id.getText().toString();
                     String Password = pw.getText().toString();
                     Response.Listener<String> responseListener = new Response.Listener<String>() {

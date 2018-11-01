@@ -28,7 +28,7 @@ public class Rainny extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        if(System.currentTimeMillis() - time >= 2000){
+        /*if(System.currentTimeMillis() - time >= 2000){
             time=System.currentTimeMillis();
             finish();
             Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
@@ -36,6 +36,6 @@ public class Rainny extends AppCompatActivity {
             finishAffinity();
             System.runFinalization();
             System.exit(0);
-        }
+        }*/
     }
 }

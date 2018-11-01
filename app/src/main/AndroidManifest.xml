@@ -15,33 +15,47 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar">
-        <activity android:name=".StartActivity">
+        <activity android:name=".StartActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".Main.GraphActivity"
-            android:theme="@style/AppBarTheme" />
-        <activity android:name=".SignUpActivity.SignUp1Activity" />
-        <activity android:name=".SignUpActivity.SignUp2Activity" />
-        <activity android:name=".Main.badgesActivity" />
-        <activity android:name=".Request.UserName" />
-        <activity android:name=".Rainny" />
-        <activity android:name=".Tutorial.Tutorial1" />
-        <activity android:name=".Fragment_main" />
-        <activity android:name=".Tutorial.Tutorial6" />
-        <activity android:name=".ComingSoon" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"/>
+        <activity android:name=".SignUpActivity.SignUp1Activity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".SignUpActivity.SignUp2Activity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".Main.badgesActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".Request.UserName"
+            android:launchMode="singleTop"/>
+        <activity android:name=".Rainny"
+            android:launchMode="singleTop"/>
+        <activity android:name=".Tutorial.Tutorial1"
+            android:launchMode="singleTop"/>
+        <activity android:name=".Fragment_main"
+            android:launchMode="singleTop"/>
+        <activity android:name=".Tutorial.Tutorial6"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ComingSoon"
+            android:launchMode="singleTop"/>
         <activity android:name=".MemoActivity"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
         <service
             android:name=".SONAGIService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
         <service
             android:name=".SoftKeyboard"
             android:permission="android.permission.BIND_INPUT_METHOD">

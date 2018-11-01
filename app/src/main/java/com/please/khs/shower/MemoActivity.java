@@ -99,7 +99,7 @@ public class MemoActivity extends AppCompatActivity {
         memoText = findViewById(R.id.memotext);
 
         textViewDate = findViewById(R.id.dateText);
-        textViewDate.setText(intent.getStringExtra("time"));
+        textViewDate.setText(String.format("%s시", intent.getStringExtra("time").substring(0, 13)));
 
         rgisbtn = findViewById(R.id.registerbtn);
         rgisbtn.setOnClickListener(new View.OnClickListener() {

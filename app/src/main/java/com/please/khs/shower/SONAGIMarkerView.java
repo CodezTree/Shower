@@ -47,7 +47,7 @@ public class SONAGIMarkerView extends MarkerView{
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        memoText.setText(SONAGIGlobalClass.emotionSet.get((int)e.getY() - 1));
+        memoText.setText(SONAGIGlobalClass.emotionSet.get((int)e.getY() - 1)); // substring for only date and hour
         /*if (SONAGIGlobalClass.memoData.get((int)e.getX()) != null) {
             memoText.setTextColor(Color.RED);
         } else {
@@ -96,7 +96,6 @@ public class SONAGIMarkerView extends MarkerView{
 
         Log.d("test", "perform click");
         Intent broadcastIntent = new Intent();
-        Log.d("logging :", "new Intent..!");
         broadcastIntent.setAction("memoBoard");
         broadcastIntent.putExtra("timeOrder", timeOrder);
         Ccontext.sendBroadcast(broadcastIntent);

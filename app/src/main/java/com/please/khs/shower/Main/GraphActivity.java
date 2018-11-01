@@ -1,6 +1,8 @@
 package com.please.khs.shower.Main;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +37,7 @@ import com.please.khs.shower.MemoActivity;
 import com.please.khs.shower.MemoData;
 import com.please.khs.shower.R;
 import com.please.khs.shower.SONAGIData;
+import com.please.khs.shower.SONAGIDatabase;
 import com.please.khs.shower.SONAGIGlobalClass;
 import com.please.khs.shower.SONAGIListAdapter;
 import com.please.khs.shower.SONAGIMarkerView;
@@ -47,13 +50,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static java.lang.Math.abs;
+
 public class GraphActivity extends AppCompatActivity {
     private long time = 0;
     private LineChart lineChart;
     Button memobtn;
-    TextView txtResult, tv_hour;
+    TextView txtResult;
     List<Entry> entries;
     IntentFilter mIntentFilter;
+
+    int startHour = 1; // 1시 정상적 Start
 
     private LinearLayoutManager mLinearLayoutManager;
     RecyclerView RV;
@@ -81,6 +88,11 @@ public class GraphActivity extends AppCompatActivity {
                     case "memoBoard":
                         Log.d("logging : ", "memoBoard");
                         showMemoActivity(intent.getIntExtra("timeOrder",0));
+                        break;
+                    case "graphRefresh":
+                        Log.d("test","refresh intent broadcast");
+                        refreshGraphData();
+                        break;
                     default:
                         Log.d("test", "Unknown Intent Name " + action);
                         break;
@@ -103,7 +115,7 @@ public class GraphActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+    /*@Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d("test","on New Intent");
@@ -113,17 +125,14 @@ public class GraphActivity extends AppCompatActivity {
                 showMemoActivity(intent.getIntExtra("timeOrder", 0));
             }
         }
-    }
+    }*/
 
     @SuppressLint("ClickableViewAccessibility")  // 노란색 워닝 보기 실어서
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_graph);
-
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.activity_actionbar);
 
 
         mLinearLayoutManager = new LinearLayoutManager(GraphActivity.this);
@@ -135,10 +144,15 @@ public class GraphActivity extends AppCompatActivity {
         madapter = new SONAGIListAdapter(GraphActivity.this, SONAGIGlobalClass.memoData);
         RV.setAdapter(madapter);
 
-        tv_hour = (TextView)findViewById(R.id.tv_hour);
+        // tv_hour = (TextView)findViewById(R.id.tv_hour);
 
-        Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
-        startService(intent);
+        if (!isServiceRunningCheck()) {
+            Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
+            startService(intent);
+        }
+        //Start Service TODO : Check whether service is working. if not, start service for works.
+
+
         /*
         //메모버튼
         memobtn = findViewById(R.id.memoButton);
@@ -154,9 +168,11 @@ public class GraphActivity extends AppCompatActivity {
 
         });
 
-        //메모버튼끝
-        */ // Memo 정점 클릭
+        //메모버튼끝 -> // TODO : 필요없으면 제거 요망
+        */
+        // Memo 정점 클릭
 
+        // Dummy Data
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 00:00:00", "아", 6));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 01:00:00", "아", 1));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 02:00:00", "아", 2));
@@ -185,6 +201,7 @@ public class GraphActivity extends AppCompatActivity {
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction("memoBoard");
+        mIntentFilter.addAction("graphRefresh");
 
         registerReceiver(mReceiver, mIntentFilter);
 
@@ -230,21 +247,21 @@ public class GraphActivity extends AppCompatActivity {
 
         LineDataSet lineDataSet = new LineDataSet(entries, "나의 감정");//라벨은 line이 무엇을 나타내는지
         lineDataSet.setLineWidth(1);
-        lineDataSet.setCircleHoleRadius(2);
-        lineDataSet.setCircleRadius(3); //정점
+        lineDataSet.setCircleHoleRadius(2.5f);
+        lineDataSet.setCircleRadius(3.5f); //정점
         lineDataSet.setCircleColor(Color.parseColor("#FC8C94"));
         lineDataSet.setCircleColorHole(Color.WHITE);//정점 안 정점
         lineDataSet.setColor(Color.parseColor("#FF7A83"));//line color
         lineDataSet.setDrawCircleHole(true);
         lineDataSet.setDrawCircles(true);
+        lineDataSet.setHighlightEnabled(true);
         lineDataSet.setDrawHorizontalHighlightIndicator(true);
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawValues(false);
-        lineDataSet.setHighlightLineWidth(2);
-
-        lineDataSet.setHighlightEnabled(true);
+        lineDataSet.setHighlightLineWidth(0);
 
         LineData lineData = new LineData(lineDataSet);
+        lineData.setHighlightEnabled(true);
         lineChart.setData(lineData);
         lineChart.setDragEnabled(true);
         lineChart.setScaleYEnabled(false);
@@ -257,8 +274,9 @@ public class GraphActivity extends AppCompatActivity {
         lineChart.setPinchZoom(false);
         lineChart.getViewPortHandler().setMaximumScaleX((float)entries.size() / 7);
         lineChart.getViewPortHandler().setMinimumScaleX((float)entries.size() / 7);
+        lineChart.getViewPortHandler().setDragOffsetX(7f);
 
-        lineChart.setHighlightPerTapEnabled(true);
+        lineChart.setHighlightPerTapEnabled(false);
         lineChart.setHighlightPerDragEnabled(false);
 
         // Memo 버튼 클릭 Listener
@@ -288,25 +306,19 @@ public class GraphActivity extends AppCompatActivity {
 
         });
 
-        // Marker View
-        SONAGIMarkerView mv = new SONAGIMarkerView(this, R.layout.graph_marker);
-        //lineChart.setMarker(mv);
-        lineChart.setMarker(mv);
-        lineChart.setHighlightPerDragEnabled(false);
-        lineChart.setHighlightPerTapEnabled(true);
-
-
         //-- custom ( time data )
-        final String[] quarters = new String[] { "1시", "2시", "3시", "4시", "5시","6시", "7시", "8시", "9시", "10시", "11시", "12시"};
+        final String[] quarters = new String[] {"1시", "2시", "3시", "4시", "5시","6시", "7시", "8시", "9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시", "20시", "21시", "22시", "23시", "24시"};
 
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return quarters[(int) value % 12];
+                Log.d("refresh", Float.toString(value));
+                return quarters[(int) (startHour + value) % 24];
             }
         };
         //-- custom
 
+        // Axis Setting
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(Color.parseColor("#F3C4CC"));
@@ -314,67 +326,141 @@ public class GraphActivity extends AppCompatActivity {
         xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
         xAxis.setValueFormatter(formatter);
 
-
-
         YAxis yLAxis = lineChart.getAxisLeft();
         yLAxis.setTextColor(Color.parseColor("#FFFFFF")); //y축 존재, UI에는 안 보임.
+        yLAxis.setAxisMinimum(0f);
+        yLAxis.setAxisMaximum(9f);
 
         YAxis yRAxis = lineChart.getAxisRight();
         yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(true);
+        yRAxis.setDrawAxisLine(false);
         yRAxis.setDrawGridLines(false);
 
         LimitLine ll = new LimitLine(4.5f, "");
         ll.setLineColor(Color.RED);
         ll.setLineWidth(0.4f);
 
+        LimitLine l1 = new LimitLine(1f, "우울함");
+        LimitLine l2 = new LimitLine(2f, "짜증");
+        LimitLine l3 = new LimitLine(3f, "긴장");
+        LimitLine l4 = new LimitLine(4f, "지침");
+        LimitLine l5 = new LimitLine(5f, "만족");
+        LimitLine l6 = new LimitLine(6f, "신남");
+        LimitLine l7 = new LimitLine(7f, "행복");
+        LimitLine l8 = new LimitLine(8f, "즐거움");
+        ll.setLineColor(Color.RED);
+        ll.setLineWidth(0.45f);
+        l1.setLineColor(Color.BLACK);
+        l1.setLineWidth(0.15f);
+        l2.setLineColor(Color.BLACK);
+        l2.setLineWidth(0.15f);
+        l3.setLineColor(Color.BLACK);
+        l3.setLineWidth(0.15f);
+        l4.setLineColor(Color.BLACK);
+        l4.setLineWidth(0.15f);
+        l5.setLineColor(Color.BLACK);
+        l5.setLineWidth(0.15f);
+        l6.setLineColor(Color.BLACK);
+        l6.setLineWidth(0.15f);
+        l7.setLineColor(Color.BLACK);
+        l7.setLineWidth(0.15f);
+        l8.setLineColor(Color.BLACK);
+        l8.setLineWidth(0.15f);
+
+
         yLAxis.addLimitLine(ll);
+        yLAxis.addLimitLine(l1);
+        yLAxis.addLimitLine(l2);
+        yLAxis.addLimitLine(l3);
+        yLAxis.addLimitLine(l4);
+        yLAxis.addLimitLine(l5);
+        yLAxis.addLimitLine(l6);
+        yLAxis.addLimitLine(l7);
+        yLAxis.addLimitLine(l8);
 
         Description description = new Description();
         description.setText("( 단위 : 시간 )");
+        // Axis Settingl
 
+
+        // Marker View
+        SONAGIMarkerView mv = new SONAGIMarkerView(this, R.layout.graph_marker);
+        lineChart.setMarker(mv);
+        lineChart.setHighlightPerDragEnabled(false);
+        lineChart.setHighlightPerTapEnabled(true);
         lineChart.setDoubleTapToZoomEnabled(false);
         lineChart.setDrawGridBackground(false);
         lineChart.setDescription(description);
         lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
 
-        // ----- for debug GOOD!
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while(true) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                tv_hour.setText(String.format(Locale.KOREA, "%f", lineChart.getX()));
-                            }
-                        });
-
-                        Thread.sleep(100);
-
-                        if (endLogging) {
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-        // ----- for debug
-
 
         // test
+        /*
 
         DateFormat dateFormat = new SimpleDateFormat("HH", Locale.KOREA);
         Date now = new Date();
         Toast.makeText(getApplicationContext(), dateFormat.format(now), Toast.LENGTH_LONG).show();
+        */
     }
 
     public void refreshGraphData() {  // GraphRefresh
+        Log.d("test" ,"GraphRefresh");
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        DateFormat dateFormat1 = new SimpleDateFormat("HH", Locale.KOREA);
+        Date now = new Date();
+        Date start = new Date();
+
+        now.setTime(cutToHour(now.getTime()) + 59 * 60 * 1000 + 999); // XX시 59분 59초
+        start.setTime(cutToHour(now.getTime() - (24 * 60 * 60 * 1000))); // 하루 전
+
+        int tempIndexer = 0;
+
+        SONAGIGlobalClass.graphData = SONAGIGlobalClass.Sdb.getEmotionDataListFromTime(dateFormat.format(start), dateFormat.format(now)); // 지금 Hour로 부터 24시간 전까지 불러온다.
+        List<Entry> tempEntries = new ArrayList<>();
+
+        startHour = Integer.parseInt(dateFormat1.format(start)); // 계산 시작 시간
+
+        try {
+            for (int i = 0; i < 24; i++) {
+                if (Integer.parseInt(dateFormat1.format(dateFormat.parse(SONAGIGlobalClass.graphData.get(tempIndexer).dateTime))) == i) {
+                    tempEntries.add(new Entry((float)i, SONAGIGlobalClass.graphData.get(tempIndexer).emotion));
+                    tempIndexer++;
+                } else {
+                    SONAGIGlobalClass.graphData.add(i, new SONAGIData("","", -1));  // dummy of calculating
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        LineDataSet tempLineDataSet = new LineDataSet(tempEntries, "나의 감정");
+        tempLineDataSet.setLineWidth(1);
+        tempLineDataSet.setCircleHoleRadius(2);
+        tempLineDataSet.setCircleRadius(3); //정점
+        tempLineDataSet.setCircleColor(Color.parseColor("#FC8C94"));
+        tempLineDataSet.setCircleColorHole(Color.WHITE);//정점 안 정점
+        tempLineDataSet.setColor(Color.parseColor("#FF7A83"));//line color
+        tempLineDataSet.setDrawCircleHole(true);
+        tempLineDataSet.setDrawCircles(true);
+        tempLineDataSet.setDrawHorizontalHighlightIndicator(true);
+        tempLineDataSet.setDrawHighlightIndicators(false);
+        tempLineDataSet.setDrawValues(false);
+        tempLineDataSet.setHighlightLineWidth(3.0f);
+        tempLineDataSet.setHighlightEnabled(true);
+
+        LineData tempLineData = new LineData(tempLineDataSet);
+
+        lineChart.setData(tempLineData);
+        lineChart.getViewPortHandler().setMaximumScaleX((float)tempEntries.size() / 7);
+        lineChart.getViewPortHandler().setMinimumScaleX((float)tempEntries.size() / 7);
+        //lineChart.getViewPortHandler().setZoom(0.1f, 0.1f);
+        lineChart.invalidate();
+    }
+
+    private long cutToHour(long time) {
+        return time - (time % (60 * 60 * 1000));
     }
 
     public void refreshTimelineData() {  // TimeLine Refresh
@@ -382,15 +468,19 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keycode, KeyEvent event)
+    public boolean onKeyDown(int keycode, KeyEvent event) // Test Key
     {
         switch(keycode)
         {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 Intent broadcastIntent = new Intent();
                 broadcastIntent.setAction("tester");
-                broadcastIntent.putExtra("emotion", 1);
+                broadcastIntent.putExtra("emotion", SONAGIGlobalClass.Sdb.getLatestEmotion().emotion);
                 sendBroadcast(broadcastIntent);
+                break;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                // SONAGIGlobalClass.Sdb.testWrite();
+                refreshGraphData();
                 break;
         }
         return true;
@@ -399,12 +489,22 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         if(System.currentTimeMillis() - time >= 2000){
-            time=System.currentTimeMillis();
+            time = System.currentTimeMillis();
             Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
-        }else if(System.currentTimeMillis() - time < 2000){
+        } else if(System.currentTimeMillis() - time < 2000){
             finishAffinity();
+            finish();
             System.runFinalization();
-            System.exit(0);
+            }
+    }
+
+    public boolean isServiceRunningCheck() {
+        ActivityManager manager = (ActivityManager) this.getSystemService(Activity.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.example.khs.shower.SONAGIService".equals(service.service.getClassName())) {
+                return true;
+            }
         }
+        return false;
     }
 }

@@ -16,15 +16,18 @@ import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.please.khs.shower.Main.GraphActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.net.URLDecoder;
 
 public class SONAGIService extends Service {
     public static final String mBroadcastProcessMsgActionService = "p.m.a.action";
     public static final String mBroadcastContentActionService = "c.a.action";
     // Broadcast를 위한 액션 등록
+    String firstEm = null, secondEm = null;
 
     private IntentFilter mIntentFilter;
 
@@ -115,12 +118,32 @@ public class SONAGIService extends Service {
             public void onResponse(String response) {
                 try {
                     // Response
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA); // Process 에서는 mm:ss까지
                     String processTime = sdf.format(new Date(System.currentTimeMillis()));
                     int processedEmotion = Integer.parseInt(response);
 
                     SONAGIGlobalClass.Sdb.putMsgData(processTime, fmsg, processedEmotion);
                     Log.d("test","process time : "+processTime+"  emotion : "+Integer.toString(processedEmotion));
+
+                    // GraphRefresh
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction("graphRefresh");
+                    //getApplicationContext().sendBroadcast(broadcastIntent);
+
+                    String tempEmotion = SONAGIGlobalClass.emotionSet.get(processedEmotion);
+                    // 3 감정 연속인지 확인
+                    if (firstEm.equals("a")) { // 처음인 경우
+                        firstEm = tempEmotion;
+                    } else {
+                        if (firstEm.equals(secondEm)) {
+                            requestContent(processedEmotion); // 연속이다
+                            firstEm = "a";
+                            secondEm = "b";
+                        } else {
+                            firstEm = tempEmotion;
+                            secondEm = "b";
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -140,23 +163,28 @@ public class SONAGIService extends Service {
                 String data[] = response.split("@@");
 
                 NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                Intent actionContent = new Intent(SONAGIService.this, InternetActivity.class);
+                Intent actionContent = new Intent(getApplicationContext(), InternetActivity.class);
                 actionContent.putExtra("URL", data[1]);
                 Log.d("test", "URL : " + data[1]);
                 // data URL parcel and broadcast..?? NOPE Pending
                 PendingIntent pendingIntent = PendingIntent.getActivity(SONAGIService.this, 0, actionContent, PendingIntent.FLAG_UPDATE_CURRENT);
+                String decodeContent = "";
+                try {
+                    decodeContent = URLDecoder.decode(data[0], "UTF-8");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 Notification.Builder mNotificationBuilder = new Notification.Builder(getApplicationContext());
                 mNotificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.xs_logo))
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setSmallIcon(R.mipmap.xs_logo)
-                        .setAutoCancel(true)
-                        .setContentIntent(pendingIntent);
+                        .setContentIntent(pendingIntent)
+                        .setContentTitle("오늘 같은 기분엔...?")
+                        .setContentText(decodeContent)
+                        .setAutoCancel(true);
 
-                mNotificationBuilder.setContentTitle(data[0])
-                        .setContentText("오늘 같은 기분엔...?");
-
-                mNotificationBuilder.setPriority(Notification.PRIORITY_HIGH);
+                mNotificationBuilder.setPriority(Notification.PRIORITY_DEFAULT);
                 try {
                     nm.notify(246, mNotificationBuilder.build()); // 244 lol
                 } catch (Exception e) {

@@ -55,20 +55,42 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
             if (diff == 0) {  // 처리된 시간단위가 같다면
                 // UPDATE 구문으로 msg 추가시켜주고, emotion을 최신 으로 업데이트 시켜준다
-                String sql = String.format(Locale.KOREA, "UPDATE tableMemo SET time = %s, msg = %s, emotion = %d WHERE time = %s", time, loadedMsg + msg, emotion, loadedTime); // Locale 왜 쓰는지 알아보기. Warning 이유
+                String sql = String.format("UPDATE tableMemo SET time = '%s', msg = '%s', emotion = %d WHERE time = '%s'", time, loadedMsg + msg, emotion, loadedTime); // Locale 왜 쓰는지 알아보기. Warning 이유
                 wdb.execSQL(sql);
             } else {
 
                 // 그냥 emotionData를 추가해준다. 또한 모든 메모는 Hour 단위로 저장이 된다. 그러니 신경 ㄱㅊ  아자아자
-                String sql = "INSERT INTO tableEmotion ( time, msg, emotion ) VALUES ( ?, ?, ?)";
+                String sql = String.format("INSERT INTO tableEmotion ( time, msg, emotion ) VALUES ( '%s', '%s', %s)", time, msg, Integer.toString(emotion));
 
-                wdb.execSQL(sql, new Object[]{ time, msg, Integer.toString(emotion) });
+                wdb.execSQL(sql);
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.d("test", "msg data inserted");
+    }
+
+    public void testWrite() {
+        String sql = "INSERT INTO tableEmotion (time, msg, emotion) VALUES ( '2018-08-24 12:15:20', '아 기부니가 좋아요 good', 1)";
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(sql);
+
+        SQLiteDatabase dbs = getReadableDatabase();
+        String query = "SELECT * FROM tableEmotion limit 1";
+        Cursor cursor;
+
+        try {
+            cursor = dbs.rawQuery(query, null);
+            cursor.moveToFirst();
+
+            Log.d("test db", cursor.getString(0) + cursor.getString(1));
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("test db", "test finished");
     }
 
     public void putMemoData(String time, String memo, int emotion) {
@@ -101,14 +123,14 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
         if (cutToHour(now.getTime()) - cutToHour(recentDate.getTime()) == 0) {   // recent memo exists
             // Update Memo
-            String sql = String.format("UPDATE tableMemo SET memo='%s' WHERE time=%s", memo, time);
+            String sql = String.format("UPDATE tableMemo SET memo='%s' WHERE time='%s'", memo, time);
             wdb.execSQL(sql);
             Log.d("test", "updated memo data");
         } else {
             // Add New Memo
-            String sql = "INSERT INTO tableMemo ( time, memo, emotion ) VALUES (?, ?, ?)";
+            String sql = String.format("INSERT INTO tableMemo ( time, memo, emotion ) VALUES ('%s', '%s', %s)", time, memo, Integer.toString(emotion));
 
-            wdb.execSQL(sql, new Object[]{time, memo, Integer.toString(emotion) });
+            wdb.execSQL(sql);
             Log.d("test", "new memo data");
         }
     }
@@ -127,7 +149,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
     public ArrayList<MemoData> getMemoDataListFromTime(String timeStart, String timeEnd) {
 
-        String query = String.format("SELECT time, memo, emotion  FROM tableMemo WHERE time >= %s AND time <= %s", timeStart, timeEnd);
+        String query = String.format("SELECT time, memo, emotion  FROM tableMemo WHERE time >= '%s' AND time <= '%s'", timeStart, timeEnd);
 
         ArrayList<MemoData> tempArr = new ArrayList<>();
 
@@ -160,7 +182,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
     // timeStart, timeEnd의 형식은 "2018-9-15 09:20:15" 와 같아야 함.
     public ArrayList<SONAGIData> getEmotionDataListFromTime(String timeStart, String timeEnd) {
 
-        String query = String.format("SELECT time, msg, emotion FROM tableEmotion WHERE time >= %s AND time <= %s", timeStart, timeEnd);
+        String query = String.format("SELECT time, msg, emotion FROM tableEmotion WHERE time >= '%s' AND time <= '%s' limit 24", timeStart, timeEnd); // limit 는 혹시 모르니까...
 
         ArrayList<SONAGIData> tempArr = new ArrayList<>();
 
