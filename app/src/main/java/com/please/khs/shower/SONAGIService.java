@@ -200,14 +200,17 @@ public class SONAGIService extends Service {
     public class contentWorker extends Thread {
         public void run() {
             try {
+                long s = 1000 * 60 * 30;
+                Thread.sleep(s);
+
                 while(true) {
                     SONAGIData latestData = SONAGIGlobalClass.Sdb.getLatestEmotion();
                     if (latestData != null) {
                         requestContent(latestData.emotion);
-                        long s = 1000 * 60 * 60;
+                        s = 1000 * 60 * 60;
                         Thread.sleep(s); // One Hour Latency
                     } else {
-                        long s = 1000 * 60 * 30;
+                        s = 1000 * 60 * 30;
                         Thread.sleep(s);
                     }
                 }
