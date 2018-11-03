@@ -48,6 +48,10 @@ public class SONAGIMarkerView extends MarkerView{
     public void refreshContent(Entry e, Highlight highlight) {
 
         memoText.setText(SONAGIGlobalClass.emotionSet.get((int)e.getY() - 1)); // substring for only date and hour
+        if ((int)e.getY() < 5)
+            memoButton.setBackgroundColor(Color.parseColor("#A3CBD8"));
+        else
+            memoButton.setBackgroundColor(Color.parseColor("#FC8C94"));
         /*if (SONAGIGlobalClass.memoData.get((int)e.getX()) != null) {
             memoText.setTextColor(Color.RED);
         } else {

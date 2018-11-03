@@ -70,7 +70,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         }
         Log.d("test", "msg data inserted");
     }
-
+/*
     public void testWrite() {
         String sql = "INSERT INTO tableEmotion (time, msg, emotion) VALUES ( '2018-08-24 12:15:20', '아 기부니가 좋아요 good', 1)";
 
@@ -92,7 +92,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
         Log.d("test db", "test finished");
     }
-
+*/
     public void putMemoData(String time, String memo, int emotion) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH", Locale.KOREA);
@@ -110,9 +110,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             Cursor cursor = rdb.rawQuery(query, null);
 
             if (cursor.moveToFirst()) {
-                do {
-                    tempTime = cursor.getString(0);
-                } while(cursor.moveToNext());
+                tempTime = cursor.getString(0);
             }
 
             recentDate = dateFormat.parse(tempTime);
@@ -121,17 +119,25 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
 
-        if (cutToHour(now.getTime()) - cutToHour(recentDate.getTime()) == 0) {   // recent memo exists
-            // Update Memo
-            String sql = String.format("UPDATE tableMemo SET memo='%s' WHERE time='%s'", memo, time);
-            wdb.execSQL(sql);
-            Log.d("test", "updated memo data");
-        } else {
+        if (tempTime == null) {
             // Add New Memo
             String sql = String.format("INSERT INTO tableMemo ( time, memo, emotion ) VALUES ('%s', '%s', %s)", time, memo, Integer.toString(emotion));
 
             wdb.execSQL(sql);
             Log.d("test", "new memo data");
+        } else {
+            if (cutToHour(now.getTime()) - cutToHour(recentDate.getTime()) == 0) {   // recent memo exists with same 'hour'
+                // Update Memo
+                String sql = String.format("UPDATE tableMemo SET memo='%s' WHERE time='%s'", memo, time);
+                wdb.execSQL(sql);
+                Log.d("test", "updated memo data");
+            } else {
+                // Add New Memo
+                String sql = String.format("INSERT INTO tableMemo ( time, memo, emotion ) VALUES ('%s', '%s', %s)", time, memo, Integer.toString(emotion));
+
+                wdb.execSQL(sql);
+                Log.d("test", "new memo data");
+            }
         }
     }
 

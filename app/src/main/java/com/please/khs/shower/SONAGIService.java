@@ -164,6 +164,7 @@ public class SONAGIService extends Service {
 
                 NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Intent actionContent = new Intent(getApplicationContext(), InternetActivity.class);
+                actionContent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 actionContent.putExtra("URL", data[1]);
                 Log.d("test", "URL : " + data[1]);
                 // data URL parcel and broadcast..?? NOPE Pending
@@ -181,10 +182,10 @@ public class SONAGIService extends Service {
                         .setSmallIcon(R.mipmap.xs_logo)
                         .setContentIntent(pendingIntent)
                         .setContentTitle("오늘 같은 기분엔...?")
-                        .setContentText(decodeContent)
-                        .setAutoCancel(true);
+                        .setAutoCancel(true)
+                        .setStyle(new Notification.BigTextStyle().bigText(decodeContent))
+                        .setPriority(Notification.PRIORITY_MAX);
 
-                mNotificationBuilder.setPriority(Notification.PRIORITY_DEFAULT);
                 try {
                     nm.notify(246, mNotificationBuilder.build()); // 244 lol
                 } catch (Exception e) {

@@ -74,8 +74,8 @@ public class GraphActivity extends AppCompatActivity {
     public void showMemoActivity(int timeOrder) {
         Intent intent = new Intent(GraphActivity.this, MemoActivity.class);
         intent.putExtra("timeOrder", timeOrder);
-        intent.putExtra("time", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnecter.get(timeOrder)).dateTime);
-        intent.putExtra("emotion", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnecter.get(timeOrder)).emotion);
+        intent.putExtra("time", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).dateTime);
+        intent.putExtra("emotion", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).emotion);
         // TODO : get 이 null 인경우도 처리...?? ==> 뭐죠
         startActivityForResult(intent, 3000);
     }
@@ -106,11 +106,15 @@ public class GraphActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        int test;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 3000:
-                    // SONAGIGlobalClass.memoData.put(data.getIntExtra("timeOrder", 0), new MemoData(data.getStringExtra("time"), data.getStringExtra("memo"), data.getIntExtra("emotion", 0)));
-                    SONAGIGlobalClass.memoData.add(new MemoData(data.getStringExtra("time"), data.getStringExtra("memo"), data.getIntExtra("emotion", 0)));
+                    int emotion = data.getIntExtra("emotion", 0);
+                    String time = data.getStringExtra("time"), memo = data.getStringExtra("memo");
+                    //Log.d("test", "got data extra " + Integer.toString(test));
+                    // SONAGIGlobalClass.memoData.add(data.getIntExtra("timeOrder", 0), new MemoData(data.getStringExtra("time"), data.getStringExtra("memo"), data.getIntExtra("emotion", 0)));
+                    SONAGIGlobalClass.Sdb.putMemoData(time, memo, emotion);
                     // DATABASE SAVE LATER
                     refreshTimelineData();
             }
@@ -137,10 +141,10 @@ public class GraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_graph);
 
 
-        mLinearLayoutManager = new LinearLayoutManager(GraphActivity.this);
+        mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         RV = findViewById(R.id.RV);
-        RV.setHasFixedSize(true);
+
         RV.setLayoutManager(mLinearLayoutManager);
 
         madapter = new SONAGIListAdapter(GraphActivity.this, SONAGIGlobalClass.memoData);
@@ -201,6 +205,15 @@ public class GraphActivity extends AppCompatActivity {
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 23:00:00", "아", 6));
 
 
+        // for test
+        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 01:00:00", "슬퍼라...", 1));
+        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 02:00:00", "에구... 연습 잘 못한날..", 1));
+        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 03:00:00", "난 왜 실수투성이일까...싶다", 3));
+
+        madapter.notifyDataSetChanged();
+        //for test
+
+
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction("memoBoard");
         mIntentFilter.addAction("graphRefresh");
@@ -248,9 +261,9 @@ public class GraphActivity extends AppCompatActivity {
         // dummy data --------
 
         LineDataSet lineDataSet = new LineDataSet(entries, "나의 감정");//라벨은 line이 무엇을 나타내는지
-        lineDataSet.setLineWidth(4);
-        lineDataSet.setCircleHoleRadius(5f);
-        lineDataSet.setCircleRadius(9.5f); //정점
+        lineDataSet.setLineWidth(3);
+        lineDataSet.setCircleHoleRadius(4f);
+        lineDataSet.setCircleRadius(8f); //정점
         lineDataSet.setCircleColor(Color.parseColor("#FF7A83"));
         // #ff7a83
         lineDataSet.setCircleColorHole(Color.WHITE);//정점 안 정점
@@ -310,13 +323,17 @@ public class GraphActivity extends AppCompatActivity {
         });
 
         //-- custom ( time data )
-        final String[] quarters = new String[] {"1시", "2시", "3시", "4시", "5시","6시", "7시", "8시", "9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시", "20시", "21시", "22시", "23시", "24시"};
+        final String[] quarters = new String[] {"24시", "1시", "2시", "3시", "4시", "5시","6시", "7시", "8시", "9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시", "20시", "21시", "22시", "23시"};
 
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 Log.d("refresh", Float.toString(value));
-                return quarters[(int) (startHour + value - 1) % 24];
+                if (startHour == 0) {
+                    return quarters[(int) value % 24];
+                } else {
+                    return quarters[(int) (startHour + value) % 24];
+                }
             }
         };
         //-- custom
@@ -343,7 +360,7 @@ public class GraphActivity extends AppCompatActivity {
         ll.setLineColor(Color.RED);
         ll.setLineWidth(0.4f);
 
-        LimitLine l1 = new LimitLine(1f, "우울함");
+        /*LimitLine l1 = new LimitLine(1f, "우울함");
         LimitLine l2 = new LimitLine(2f, "짜증");
         LimitLine l3 = new LimitLine(3f, "긴장");
         LimitLine l4 = new LimitLine(4f, "지침");
@@ -380,6 +397,7 @@ public class GraphActivity extends AppCompatActivity {
         yLAxis.addLimitLine(l6);
         yLAxis.addLimitLine(l7);
         yLAxis.addLimitLine(l8);
+        */
 
         Description description = new Description();
         description.setText("( 단위 : 시간 )");
@@ -417,25 +435,23 @@ public class GraphActivity extends AppCompatActivity {
         SparseIntArray tempArr = new SparseIntArray();
 
         now.setTime(cutToHour(now.getTime()) + 59 * 60 * 1000 + 999); // XX시 59분 59초
-        start.setTime(cutToHour(now.getTime() - (24 * 60 * 60 * 1000))); // 하루 전
+        start.setTime(cutToHour(now.getTime() - (3 * 24 * 60 * 60 * 1000))); // 3일 전
 
         int tempIndexer = 0;
 
-        SONAGIGlobalClass.graphData = SONAGIGlobalClass.Sdb.getEmotionDataListFromTime(dateFormat.format(start), dateFormat.format(now)); // 지금 Hour로 부터 24시간 전까지 불러온다.
+        SONAGIGlobalClass.graphData = SONAGIGlobalClass.Sdb.getEmotionDataListFromTime(dateFormat.format(start), dateFormat.format(now)); // 지금 Hour로 부터 3일 전까지 불러온다.
         List<Entry> tempEntries = new ArrayList<>();
 
         startHour = Integer.parseInt(dateFormat1.format(start)); // 계산 시작 시간
-        int hour, startHour = -1;
+        int hour;
 
         try {
-            for (int i = 0; i < 24; i++) {
+            for (int i = 0; i < 72; i++) {
                 if (tempIndexer == SONAGIGlobalClass.graphData.size()) {
                     break;
                 }
+
                 hour = Integer.parseInt(dateFormat1.format(dateFormat.parse(SONAGIGlobalClass.graphData.get(tempIndexer).dateTime)));
-                if (startHour == -1) {
-                    startHour = hour;
-                }
 
                 if (hour == (startHour + i) % 24) {
                     tempEntries.add(new Entry((float)i, SONAGIGlobalClass.graphData.get(tempIndexer).emotion));
@@ -451,12 +467,12 @@ public class GraphActivity extends AppCompatActivity {
             tempEntries.add(new Entry(0f, -1f));
         } // 튕김 방지.... 0일때
 
-        SONAGIGlobalClass.graphDataConnecter = tempArr;
+        SONAGIGlobalClass.graphDataConnector = tempArr;
 
         LineDataSet tempLineDataSet = new LineDataSet(tempEntries, "나의 감정");
         tempLineDataSet.setLineWidth(4);
-        tempLineDataSet.setCircleHoleRadius(5f);
-        tempLineDataSet.setCircleRadius(9.5f); //정점
+        tempLineDataSet.setCircleHoleRadius(4f);
+        tempLineDataSet.setCircleRadius(8f); //정점
         tempLineDataSet.setCircleColor(Color.parseColor("#FC8C94"));
         tempLineDataSet.setCircleColorHole(Color.WHITE);//정점 안 정점
         tempLineDataSet.setColor(Color.parseColor("#FF7A83"));//line color
@@ -482,6 +498,17 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     public void refreshTimelineData() {  // TimeLine Refresh
+        Log.d("test" ,"Timeline Data Refresh");
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        Date now = new Date();
+        Date start = new Date();
+
+        now.setTime(cutToHour(now.getTime()) + 59 * 60 * 1000 + 999); // XX시 59분 59초
+        start.setTime(cutToHour(now.getTime() - (3 * 24 * 60 * 60 * 1000))); // 3일 전
+
+        SONAGIGlobalClass.memoData = SONAGIGlobalClass.Sdb.getMemoDataListFromTime(dateFormat.format(start), dateFormat.format(now)); // 지금 Hour로 부터 24시간 전까지 불러온다.
+
         madapter.notifyDataSetChanged();
     }
 
@@ -500,20 +527,18 @@ public class GraphActivity extends AppCompatActivity {
                 // SONAGIGlobalClass.Sdb.testWrite();
                 refreshGraphData();
                 break;
+            case KeyEvent.KEYCODE_BACK:
+                if(System.currentTimeMillis() - time >= 1000) {
+                    time=System.currentTimeMillis();
+                    Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
+                }else if(System.currentTimeMillis() - time < 1000){
+                    finishAffinity();
+                    System.runFinalization();
+                    System.exit(0);
+                }
+                break;
         }
         return true;
-    }
-
-    @Override
-    public void onBackPressed(){
-        if(System.currentTimeMillis() - time >= 2000){
-            time = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
-        } else if(System.currentTimeMillis() - time < 2000){
-            finishAffinity();
-            finish();
-            System.runFinalization();
-            }
     }
 
     public boolean isServiceRunningCheck() {

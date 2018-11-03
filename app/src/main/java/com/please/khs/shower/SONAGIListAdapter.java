@@ -25,7 +25,10 @@ public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_timeline, null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_timeline, parent, false);
+        context = parent.getContext();
+
+
 
         return new ViewHolder(v);
     }
@@ -33,7 +36,6 @@ public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MemoData memData = memoList.get(position);
-        Log.d("Touch", "gogogopoleas");
 
         holder.memo_text.setText(memData.memo);
         holder.time_text.setText(memData.time.substring(11, 19));
