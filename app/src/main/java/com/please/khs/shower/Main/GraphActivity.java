@@ -1,6 +1,7 @@
 package com.please.khs.shower.Main;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +34,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.please.khs.shower.ComingSoon;
 import com.please.khs.shower.MemoActivity;
 import com.please.khs.shower.MemoData;
+import com.please.khs.shower.NavigationDrawerFragment;
 import com.please.khs.shower.R;
 import com.please.khs.shower.SONAGIData;
 import com.please.khs.shower.SONAGIGlobalClass;
@@ -126,11 +131,49 @@ public class GraphActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_graph);
 
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.activity_actionbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
 
+        //getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setDisplayShowCustomEnabled(true);
+        //getSupportActionBar().setCustomView(R.layout.activity_actionbar);
+        //View view = getSupportActionBar().getCustomView();
+
+       // android.support.v7.app.ActionBar actionBar =getSupportActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+        //View view = getSupportActionBar().getCustomView();
+        //setContentView(R.layout.activity_main);
+
+        //android.support.v7.app.ActionBar ab = getSupportActionBar();
+
+        /*ImageButton imageButton1= view.findViewById(R.id.slidebarButton);
+        imageButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GraphActivity.this, NavigationDrawerFragment.class);
+                startService(intent);
+            }
+        });
+
+        ImageButton imageButton2= view.findViewById(R.id.settingButton);
+        imageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Forward Button is clicked",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(GraphActivity.this, ComingSoon.class);
+                startService(intent);
+            }
+        });*/
+
+
+        /*
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.activ,ity_graph);
+
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.activity_actionbar);
 
         mLinearLayoutManager = new LinearLayoutManager(GraphActivity.this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -143,6 +186,20 @@ public class GraphActivity extends AppCompatActivity {
 
         Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
         startService(intent);
+        */
+
+        mLinearLayoutManager = new LinearLayoutManager(GraphActivity.this);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        RV = findViewById(R.id.RV);
+        RV.setHasFixedSize(true);
+        RV.setLayoutManager(mLinearLayoutManager);
+
+        madapter = new SONAGIListAdapter(GraphActivity.this, SONAGIGlobalClass.memoData);
+        RV.setAdapter(madapter);
+
+        Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
+        startService(intent);
+
         /*
         //메모버튼
         memobtn = findViewById(R.id.memoButton);

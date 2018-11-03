@@ -25,7 +25,8 @@
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".Main.GraphActivity"
-            android:theme="@style/AppBarTheme" />
+            android:theme="@style/AppThemeToolbar"/>
+
         <activity android:name=".SignUpActivity.SignUp1Activity" />
         <activity android:name=".SignUpActivity.SignUp2Activity" />
         <activity android:name=".Main.badgesActivity" />
@@ -35,7 +36,8 @@
         <activity android:name=".Fragment_main" />
         <activity android:name=".Tutorial.Tutorial6" />
         <activity android:name=".ComingSoon" />
-        <activity android:name=".MemoActivity"
+        <activity
+            android:name=".MemoActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
         <service
@@ -55,11 +57,15 @@
                 android:resource="@xml/method" />
         </service>
 
-        <activity android:name=".Actionbar" />
+        <activity android:name=".Actionbar"/>
+
         <activity android:name=".Setting" />
         <activity
             android:name=".Slide"
-            android:label="@string/title_activity_slide"></activity>
+            android:label="@string/title_activity_slide" />
+        <activity
+            android:name=".NavigationDrawerLeft"
+            android:label="@string/title_activity_navigation_drawer_left"></activity>
     </application>
 
 </manifest>
