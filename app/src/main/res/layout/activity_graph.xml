@@ -5,27 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFC"
-    android:theme="@style/AppBarTheme"
     tools:context=".Main.GraphActivity"
     tools:layout_keyline="#FDABA9">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/graphToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="0dp"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="소나기"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </android.support.v7.widget.Toolbar>
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:id="@+id/scalableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graphToolbar"
         app:scale_base_height="180"
         app:scale_base_width="270">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="179dp"
             android:layout_gravity="center"
-            app:scale_width="270"
             app:scale_height="180"
-            >
+            app:scale_width="270">
 
         </com.github.mikephil.charting.charts.LineChart>
 

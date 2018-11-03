@@ -14,7 +14,7 @@
         android:label="SONAGI"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeNoActionBar">
+        android:theme="@style/AppTheme">
         <activity android:name=".StartActivity"
             android:launchMode="singleTop">
             <intent-filter>

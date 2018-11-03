@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -70,6 +71,8 @@ public class GraphActivity extends AppCompatActivity {
     SONAGIListAdapter madapter;
 
     Boolean endLogging = false;
+
+    Toolbar appToolbar;
 
     public void showMemoActivity(int timeOrder) {
         Intent intent = new Intent(GraphActivity.this, MemoActivity.class);
@@ -137,8 +140,14 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_graph);
+
+        appToolbar = (Toolbar) findViewById(R.id.graphToolbar);
+        setSupportActionBar(appToolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_white);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         mLinearLayoutManager = new LinearLayoutManager(this);
