@@ -45,10 +45,6 @@ public class LoginActivity extends AppCompatActivity {
 //
 //                존재 X -> 그러면 로그인 버튼 -> email, password -> EditText
 
-        if (getPreferencesString("AppFirstTime") == null) {
-            savePreferencesString("AppFirstTime", "true");
-        }
-
         Signupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

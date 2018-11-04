@@ -40,6 +40,7 @@
             android:hint="ex) 이 또한 지나가리라!"
             android:lines="1"
             android:singleLine="true"
+            android:maxLength="16"
             app:scale_height="45"
             app:scale_textsize="10"
             app:scale_top="170"

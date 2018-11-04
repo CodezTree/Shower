@@ -25,11 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InternetActivity"
-            android:launchMode="singleTop" />
+            android:name=".InternetActivity"/>
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".KeyboardSettingActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".Main.GraphActivity"
             android:launchMode="singleTop"

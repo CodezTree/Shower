@@ -22,8 +22,12 @@ public class InternetActivity extends Activity {
         startActivity(urlIntent);
 
         Log.d("content test", "content received");
-
-        finish(); // End this Activity when showing is over
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        finish();
+    }
 }

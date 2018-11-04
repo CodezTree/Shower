@@ -1,6 +1,7 @@
 package com.please.khs.shower;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -12,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -99,6 +101,7 @@ public class SONAGIService extends Service {
                         Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(urlIntent);
                     case "tester":
+                        Log.d("test", "test content request");
                         requestContent(intent.getIntExtra("emotion", 0));
                         break;
                     default:
@@ -129,7 +132,7 @@ public class SONAGIService extends Service {
                     // GraphRefresh
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction("graphRefresh");
-                    //getApplicationContext().sendBroadcast(broadcastIntent);
+                    getApplicationContext().sendBroadcast(broadcastIntent); // graph refresh
 
                     String tempEmotion = SONAGIGlobalClass.emotionSet.get(processedEmotion);
                     // 3 감정 연속인지 확인
@@ -176,16 +179,22 @@ public class SONAGIService extends Service {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+                bigText.bigText(decodeContent);
 
-                Notification.Builder mNotificationBuilder = new Notification.Builder(getApplicationContext());
+                bigText.setSummaryText("컨텐츠");
+
+                NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "Shower");
                 mNotificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.xs_logo))
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setSmallIcon(R.mipmap.xs_logo)
                         .setContentIntent(pendingIntent)
-                        .setContentTitle("오늘 같은 기분엔...?")
+                        .setContentTitle("오늘 같은 기분엔..?")
+                        .setContentText(decodeContent)
+                        .setDefaults(Notification.DEFAULT_SOUND)
                         .setAutoCancel(true)
-                        .setStyle(new Notification.BigTextStyle().bigText(decodeContent))
-                        .setPriority(Notification.PRIORITY_MAX);
+                        .setStyle(bigText)
+                        .setPriority(NotificationCompat.PRIORITY_MAX);
 
                 try {
                     nm.notify(246, mNotificationBuilder.build()); // 244 lol

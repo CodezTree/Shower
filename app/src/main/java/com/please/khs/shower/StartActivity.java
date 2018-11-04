@@ -34,6 +34,10 @@ public class StartActivity extends AppCompatActivity {
             savePreferencesInt("ContentUse", 1);
         }
 
+        if (getPreferencesString("AppFirstTime") == null) {
+            savePreferencesString("AppFirstTime", "true");
+        }
+
         /*
 
         Preference 정리

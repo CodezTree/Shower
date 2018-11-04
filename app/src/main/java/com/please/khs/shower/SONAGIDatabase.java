@@ -20,6 +20,18 @@ import java.util.Locale;
 public class SONAGIDatabase extends SQLiteOpenHelper{
     private Context context;
 
+    public void clearDatabase() {
+        SQLiteDatabase wdb = getWritableDatabase();
+
+        String emotionSql = "DELETE FROM tableEmotion";
+        String memoSql = "DELETE FROM tableMemo";
+
+        wdb.execSQL(emotionSql);
+        wdb.execSQL(memoSql);
+
+        Log.d("test", "Table Clear");
+    }
+
     public void putMsgData(String time, String msg, int emotion) {
         /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
         String strTime = df.format(time);*/
@@ -72,29 +84,7 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
         }
         Log.d("test", "msg data inserted");
     }
-/*
-    public void testWrite() {
-        String sql = "INSERT INTO tableEmotion (time, msg, emotion) VALUES ( '2018-08-24 12:15:20', '아 기부니가 좋아요 good', 1)";
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(sql);
-
-        SQLiteDatabase dbs = getReadableDatabase();
-        String query = "SELECT * FROM tableEmotion limit 1";
-        Cursor cursor;
-
-        try {
-            cursor = dbs.rawQuery(query, null);
-            cursor.moveToFirst();
-
-            Log.d("test db", cursor.getString(0) + cursor.getString(1));
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("test db", "test finished");
-    }
-*/
     public void putMemoData(String time, String memo, int emotion) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH", Locale.KOREA);

@@ -56,7 +56,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/bt_disconfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -66,14 +66,14 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/bt_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#FC8C94"
             android:fontFamily="@font/nanumsquareb"
-            android:textColor="#ae0000"
             android:text="안녕!"
+            android:textColor="#ae0000"
             android:textSize="15sp" />
     </LinearLayout>
 

@@ -1,8 +1,10 @@
 package com.please.khs.shower;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -13,7 +15,7 @@ import android.widget.Toast;
 
 public class SettingActivity extends AppCompatActivity {
 
-    Button alarmButton, usernameButton, userquoteButton;
+    Button alarmButton, usernameButton, userquoteButton, keyboardButton;
     EditText usernameEt, userquoteEt;
     Switch contentSwitch;
     String text;
@@ -27,6 +29,7 @@ public class SettingActivity extends AppCompatActivity {
         alarmButton = (Button) findViewById(R.id.bt_alarm_gap_set);
         usernameButton = (Button) findViewById(R.id.bt_username_set);
         userquoteButton = (Button) findViewById(R.id.bt_userquote_set);
+        keyboardButton = (Button) findViewById(R.id.bt_keyboard_setting);
 
         contentSwitch = (Switch)  findViewById(R.id.sw_content_set);
 
@@ -36,6 +39,33 @@ public class SettingActivity extends AppCompatActivity {
         rb_1 = (RadioButton) findViewById(R.id.rb_1hour);
         rb_2 = (RadioButton) findViewById(R.id.rb_3hour);
         rb_3 = (RadioButton) findViewById(R.id.rb_10hour);
+
+        usernameEt.setText(getPreferencesString("NickName"));
+        userquoteEt.setText(getPreferencesString("UserQuote"));
+
+        rb_1.setChecked(false);
+        rb_2.setChecked(false);
+        rb_3.setChecked(false);
+
+        switch(getPreferencesInt("ContentTime")) {
+            case 0:
+                Log.d("test", "content time 0 set");
+                rb_1.setChecked(true);
+                break;
+            case 1:
+                rb_2.setChecked(true);
+                break;
+            case 2:
+                rb_3.setChecked(true);
+                break;
+        }
+
+        if (getPreferencesInt("ContentUse") == 0) {
+            contentSwitch.setChecked(false);
+        } else {
+            contentSwitch.setChecked(true);
+        }
+
 
         contentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -86,6 +116,14 @@ public class SettingActivity extends AppCompatActivity {
 
                     Toast.makeText(SettingActivity.this, "유저 이름 변경 완료", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        keyboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingActivity.this, KeyboardSettingActivity.class);
+                startActivity(intent);
             }
         });
     }

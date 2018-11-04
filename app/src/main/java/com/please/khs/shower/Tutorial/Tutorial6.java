@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.please.khs.shower.ComingSoon;
+import com.please.khs.shower.KeyboardSettingActivity;
 import com.please.khs.shower.Main.GraphActivity;
 import com.please.khs.shower.R;
 import com.please.khs.shower.SignUpActivity.SignUp2Activity;
+
+import java.security.Key;
 
 public class Tutorial6 extends AppCompatActivity {
     Button startbtn;
@@ -28,9 +31,19 @@ public class Tutorial6 extends AppCompatActivity {
                 Intent intent = new Intent(Tutorial6.this, GraphActivity.class);
                 startActivity(intent);
 
+                Intent intent1 = new Intent(Tutorial6.this, KeyboardSettingActivity.class);
+                startActivity(intent1);
+
                 //토스트 메시지 - 성공적으로 로그인 되었습니다.
                 Toast.makeText(Tutorial6.this, "로그인되었습니다", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        finish();
     }
 }

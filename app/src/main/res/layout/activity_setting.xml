@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:checked="true"
+                        android:checked="false"
                         android:text="1시간"
                         android:textSize="12sp" />
 
@@ -159,6 +159,7 @@
                     android:layout_weight="3"
                     android:fontFamily="@font/nanumsquarer"
                     android:text="최소정"
+                    android:maxLength="5"
                     android:textColor="#707070"
                     android:textSize="15dp" />
 
@@ -207,6 +208,7 @@
                     android:layout_weight="3"
                     android:fontFamily="@font/nanumsquarer"
                     android:text="이 또한 지나가리라"
+                    android:maxLength="16"
                     android:textColor="#707070"
                     android:textSize="15dp" />
 
@@ -225,21 +227,53 @@
                     android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/nanumsquarer"
+                android:text="키보드 설정"
+                android:textColor="#707070"
+                android:textSize="15sp"
+                android:layout_weight="3"/>
+
+            <Button
+                android:id="@+id/bt_keyboard_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:layout_weight="2.2"
+                android:backgroundTint="#FC8C94"
+                android:fontFamily="@font/nanumsquarer"
+                android:gravity="end"
+                android:text="설정"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <ImageView
         android:id="@+id/rannyImageSetting"
-        android:layout_width="221dp"
-        android:layout_height="187dp"
+        android:layout_width="206dp"
+        android:layout_height="127dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:src="@drawable/rainy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/rainy" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

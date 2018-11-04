@@ -84,15 +84,15 @@
             android:id="@+id/text4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/nanumsquareeb"
+            android:gravity="center_horizontal"
             android:text="그러니, 개인정보를 다룰 땐"
             android:textColor="#fc8c94"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            app:scale_textsize="16"
             app:scale_height="25"
-            app:scale_width="200"
-            app:scale_top="295" />
+            app:scale_textsize="16"
+            app:scale_top="295"
+            app:scale_width="200" />
 
         <TextView
             android:id="@+id/text5"
@@ -108,13 +108,26 @@
             app:scale_width="250"
             app:scale_top="316" />
 
+        <TextView
+            android:id="@+id/text8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareeb"
+            android:text="상태바의 알림을 클릭해 끄고 킬 수 있어요!"
+            android:textColor="#fc8c94"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:scale_textsize="8"
+            app:scale_height="25"
+            app:scale_width="250"
+            app:scale_top="340" />
+
         <Button
             android:id="@+id/nextButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:gravity="bottom"
-            android:onClick="onClick"
             android:text="START >>"
             android:fontFamily="@font/nanumsquareb"
             android:textColor="#FC8C94"
@@ -136,7 +149,7 @@
             app:scale_textsize="9"
             app:scale_height="25"
             app:scale_width="300"
-            app:scale_top="360" />
+            app:scale_top="370" />
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
 

@@ -90,6 +90,24 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         intent.putExtra("timeOrder", timeOrder);
         intent.putExtra("time", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).dateTime);
         intent.putExtra("emotion", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).emotion);
+
+        int i;
+        for(i = 0; i < SONAGIGlobalClass.memoData.size() + 1; i++) {
+            if (i == SONAGIGlobalClass.memoData.size()) {
+                i = -1;
+                break;
+            }
+            if (SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).dateTime.equals(SONAGIGlobalClass.memoData.get(i).time)) {
+                break;
+            }
+        } // memo 불러오기...ㅇㅇ 시간 같은지 확인해서
+
+        if (i != -1) {
+            intent.putExtra("memo", SONAGIGlobalClass.memoData.get(i).memo);
+        } else {
+            intent.putExtra("memo", "");
+        }
+
         startActivityForResult(intent, 3000);
     }
 
@@ -125,8 +143,6 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
                 case 3000:
                     int emotion = data.getIntExtra("emotion", 0);
                     String time = data.getStringExtra("time"), memo = data.getStringExtra("memo");
-                    //Log.d("test", "got data extra " + Integer.toString(test));
-                    // SONAGIGlobalClass.memoData.add(data.getIntExtra("timeOrder", 0), new MemoData(data.getStringExtra("time"), data.getStringExtra("memo"), data.getIntExtra("emotion", 0)));
                     SONAGIGlobalClass.Sdb.putMemoData(time, memo, emotion);
                     // DATABASE SAVE LATER
                     refreshTimelineData();
@@ -540,10 +556,21 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         switch(keycode)
         {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
+                //TODO : roll back here
                 Intent broadcastIntent = new Intent();
                 broadcastIntent.setAction("tester");
-                broadcastIntent.putExtra("emotion", SONAGIGlobalClass.Sdb.getLatestEmotion().emotion);
+                // broadcastIntent.putExtra("emotion", tempData.emotion);
+                broadcastIntent.putExtra("emotion", 1);
                 sendBroadcast(broadcastIntent);
+
+                /*SONAGIData tempData = SONAGIGlobalClass.Sdb.getLatestEmotion();
+                if (tempData != null) {
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction("tester");
+                    // broadcastIntent.putExtra("emotion", tempData.emotion);
+                    broadcastIntent.putExtra("emotion", 1);
+                    sendBroadcast(broadcastIntent);
+                }*/
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
                 // SONAGIGlobalClass.Sdb.testWrite();

@@ -43,43 +43,6 @@ public class MemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("logging :","memo popup");
 
-
-
-        /*Window window = getWindow();
-
-        //타이틀바 없애기
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);  //상단바 제거
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //액티비티 둥근모양으로
-
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//왜 안대..
-
-        final Intent intent = getIntent();
-        int e = intent.getIntExtra("emotion",0);
-        if (e > 0 && e < 5) {
-            setContentView(R.layout.activity_memo_blue);//memo bule pink
-        } else {
-            setContentView(R.layout.activity_memo_pink);
-        }
-
-        // 1. 디스플레이 화면 사이즈 구하기
-        Display dp = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-
-        // 2. 화면 비율 설정
-        DisplayMetrics disp = getApplicationContext().getResources().getDisplayMetrics();
-        deviceWidth = disp.widthPixels;
-        deviceHeight = disp.heightPixels;
-        int width = (int)(deviceWidth*0.7);
-        int height = (int)(deviceHeight*0.65);
-
-        // 3. 현재 화면에 적용
-        getWindow().getAttributes().width = width;
-        getWindow().getAttributes().height = height;
-        */
-
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -98,6 +61,7 @@ public class MemoActivity extends AppCompatActivity {
         this.setFinishOnTouchOutside(false);
 
         memoText = findViewById(R.id.memotext);
+        memoText.setText(intent.getStringExtra("memo"));
 
         textViewDate = findViewById(R.id.dateText);
         textViewDate.setText(String.format("%s시", intent.getStringExtra("time").substring(0, 13)));
@@ -126,33 +90,6 @@ public class MemoActivity extends AppCompatActivity {
         });
 
     }
-
-    //메모 데이터 받기(저장)
-    //   public getMemoData(String mtxt, Date time){
-    //     memoText = findViewById(R.id.memotext);
-    //      memotxt= memoText.getText().toString();
-    //       MemoData.mtxt = memotxt;
-    //      return;
-    //  }
-    //메모 넘겨주깅
-    //   public void insertMemoData(String mtxt, Date time, String tableName){
-
-    //  }
-    //메모 불러오기
-    //  public void
-
-//
-//    private String getPreferencesString(String memo) {
-//        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-//        return sharedPreferences.getString(memo, "");
-//    }
-//
-//    private void savePreferencesString(String memo, String value) {// 야!!!뭘 어떤형식으로 저장할지!!넣어!!!내일 1교시에!!
-//        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString(memo, value);
-//        editor.commit();
-//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
