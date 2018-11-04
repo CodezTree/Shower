@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.ssomai.android.scalablelayout.ScalableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="60dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
-    <TextView
-        android:id="@id/memoText"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:fontFamily="@font/nanumsquareeb"
-        android:textSize="9sp"
-        android:gravity="center"
-        android:textAlignment="center"/>
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:scale_base_width="60"
+    app:scale_base_height="50"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/memoButton"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:background="#f97b7b"
-        android:text="Memo"
-        android:layout_gravity="center"
-        android:fontFamily="@font/nanumsquareeb"
-        android:textColor="@color/white"
-        android:textSize="9sp" />
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@id/memoText"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:fontFamily="@font/nanumsquareeb"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/memoButton"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_gravity="start"
+            android:background="#f97b7b"
+            android:fontFamily="@font/nanumsquareeb"
+            android:text="Memo"
+            android:textColor="@color/white"
+            android:textSize="6dp" />
+
+    </LinearLayout>
+</com.ssomai.android.scalablelayout.ScalableLayout>

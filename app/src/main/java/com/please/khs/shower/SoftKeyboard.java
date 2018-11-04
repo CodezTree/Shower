@@ -21,6 +21,8 @@
 package com.please.khs.shower;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -182,7 +184,7 @@ public class SoftKeyboard extends InputMethodService
                     .setContentText("눌러서 감정 분석을 활성화 시킵니다.");
         }
 
-        mNotificationBuilder.setPriority(Notification.PRIORITY_HIGH);
+        mNotificationBuilder.setPriority(Notification.PRIORITY_DEFAULT);
         try {
             nm.notify(244, mNotificationBuilder.build()); // 244 lol
         } catch (Exception e) {
@@ -197,7 +199,7 @@ public class SoftKeyboard extends InputMethodService
                 // fileWriter.flush();
                 inputSaveTemp += msg;
 
-                if (inputSaveTemp.length() > 100) {
+                if (inputSaveTemp.length() > 10) {
                     // 100 자 단위로 감정분석 처리한다... 라기 보다는 100자 넘었을때 띄어쓰기.. 맞구나!
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(mBroadcastProcessMsgActionService);
@@ -225,9 +227,22 @@ public class SoftKeyboard extends InputMethodService
         initFile();
         showAlarm();
 
-        Intent intent = new Intent(getApplicationContext(), SONAGIService.class);
-        startService(intent); // 서비스 시작
+        if (!isServiceRunningCheck()) {
+            Intent intent = new Intent(getApplicationContext(), SONAGIService.class);
+            startService(intent); // 서비스 시작
+        }
     }
+
+    public boolean isServiceRunningCheck() {
+        ActivityManager manager = (ActivityManager) this.getSystemService(Activity.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.example.khs.shower.SONAGIService".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     // NOTIFICATION

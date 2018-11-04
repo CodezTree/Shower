@@ -1,5 +1,6 @@
 package com.please.khs.shower;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -99,7 +100,7 @@ public class MemoActivity extends AppCompatActivity {
         memoText = findViewById(R.id.memotext);
 
         textViewDate = findViewById(R.id.dateText);
-        textViewDate.setText(intent.getStringExtra("time"));
+        textViewDate.setText(String.format("%s시", intent.getStringExtra("time").substring(0, 13)));
 
         rgisbtn = findViewById(R.id.registerbtn);
         rgisbtn.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +111,7 @@ public class MemoActivity extends AppCompatActivity {
                 resultIntent.putExtra("memo", memoText.getText().toString());
                 resultIntent.putExtra("emotion", intent.getIntExtra("emotion",0));
                 resultIntent.putExtra("time", getCurrentTime());
-                setResult(RESULT_OK,  resultIntent);
+                setResult(Activity.RESULT_OK,  resultIntent);
                 finish();
             }
         });

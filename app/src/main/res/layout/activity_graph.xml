@@ -5,76 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFC"
-    android:theme="@style/AppBarTheme"
     tools:context=".Main.GraphActivity"
     tools:layout_keyline="#FDABA9">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/graphToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="0dp"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nanumsquareb"
+            android:text="소나기"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </android.support.v7.widget.Toolbar>
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:id="@+id/scalableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graphToolbar"
         app:scale_base_height="180"
         app:scale_base_width="270">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="47dp"
             android:layout_gravity="center"
-            app:scale_width="270"
             app:scale_height="180"
-            >
+            app:scale_width="270">
 
         </com.github.mikephil.charting.charts.LineChart>
-
-    </com.ssomai.android.scalablelayout.ScalableLayout>
-
-
-    <com.ssomai.android.scalablelayout.ScalableLayout
-        android:id="@+id/scalableLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout"
-        app:scale_base_height="25"
-        app:scale_base_width="260">
-
-
-        <Button
-            android:id="@+id/tv_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:background="#00FF0000"
-            android:fontFamily="@font/nanumsquareb"
-            android:gravity="center"
-            android:text="1시간"
-            android:textColor="#FF819B"
-            app:scale_height="25"
-            app:scale_textsize="10"
-            app:scale_width="130" />
-
-
-        <Button
-            android:id="@+id/tv_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="#00FF0000"
-            android:fontFamily="@font/nanumsquareb"
-            android:gravity="center"
-            android:text="하루"
-            android:textColor="#FF819B"
-            app:scale_height="25"
-            app:scale_textsize="10"
-            app:scale_width="130" />
-
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
@@ -84,22 +58,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/scalableLayout">
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F6F6F6"
+            android:background="#ffffff"
             app:scale_textsize="10"
             app:scale_width="260">
 
         </android.support.v7.widget.RecyclerView>
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginBottom="244dp"
+        android:background="#FF7A83"
+        app:layout_constraintBottom_toBottomOf="@id/scalableLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.725" />
 
 </android.support.constraint.ConstraintLayout>

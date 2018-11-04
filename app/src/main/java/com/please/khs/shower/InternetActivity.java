@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 
 public class InternetActivity extends Activity {
 
@@ -19,6 +20,8 @@ public class InternetActivity extends Activity {
         Uri u = Uri.parse(url);
         urlIntent.setData(u);
         startActivity(urlIntent);
+
+        Log.d("content test", "content received");
 
         finish(); // End this Activity when showing is over
     }

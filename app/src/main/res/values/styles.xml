@@ -1,11 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppThemeToolbar" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-    </style>
-
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -22,33 +18,10 @@
         <item name="windowNoTitle">true</item>ss
     </style>
 
-    <style name="AppBarTheme" parent = "Base.Theme.AppCompat.Light.DarkActionBar">
-    <!-- Customize your theme here. -->
-        <item name ="windowNoTitle">true</item>
-        <item name="android:windowNoTitle">false</item>
-        <item name="android:windowTitleSize">50dp</item>
+    <style name="AppTheme_slide" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowTitleBackgroundStyle">@color/colorPrimary</item>
-        <item name="android:windowBackground">@color/white</item>
     </style>
-
-    <style name="AppTheme_slide" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <!--item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item-->
-    </style>
-
-    <style name="CustomTheme" parent="Theme.AppCompat.Light">
-
-        <item name="contentInsetStart">0dp</item>
-        <item name="contentInsetEnd">0dp</item>
-    </style>
-
-
-
-
-    android:style="@style/EditTextStyle"
 </resources>

@@ -31,10 +31,10 @@
             android:gravity="center"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:textSize="10sp"
+            android:textSize="15sp"
             app:scale_height="40"
             app:scale_left="60"
-            app:scale_textsize="9"
+            app:scale_textsize="14"
             app:scale_top="110"
             app:scale_width="100" />
 
@@ -49,17 +49,17 @@
 
         <TextView
             android:id="@+id/memoText"
-            android:layout_width="wrap_content"
+            android:layout_width="221dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="#707070"
             android:fontFamily="@font/nanumsquarer"
-            app:scale_textsize="5"
-            app:scale_top="15"
-            app:scale_width="230"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="#707070"
             app:scale_height="30"
-            android:text="TextView" />
+            app:scale_textsize="9"
+            app:scale_top="15"
+            app:scale_width="210" />
 
 
         <ImageView
@@ -68,7 +68,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center|left"
-            app:scale_left="5"
+            android:scaleX="2"
+            android:scaleY="2"
+            app:scale_left="10"
             app:scale_width="20"
             app:scale_height="20"
             app:srcCompat="@drawable/double_downpyo_pink" />
@@ -79,9 +81,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
+            android:scaleX="2"
+            android:scaleY="2"
             app:scale_height="20"
             app:scale_width="20"
-            app:scale_left="125"
+            app:scale_left="120"
             app:srcCompat="@drawable/double_downpyo_pink" />
     </com.ssomai.android.scalablelayout.ScalableLayout>
 </LinearLayout>
