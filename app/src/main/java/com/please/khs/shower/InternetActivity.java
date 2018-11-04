@@ -23,7 +23,7 @@ public class InternetActivity extends Activity {
 
         Log.d("content test", "content received");
 
-        //finish(); // End this Activity when showing is over
+        finish(); // End this Activity when showing is over
     }
 
 }

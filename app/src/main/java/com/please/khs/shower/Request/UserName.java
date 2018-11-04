@@ -42,12 +42,20 @@ public class UserName extends AppCompatActivity {
         editor.commit();
     }
 
+    private void savePreferencesInt(String key, int value) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
     public void onClick(View view) {//닉네임을 서버로 보내는 리퀘스트 추가
         if (view.getId() == R.id.nextButton) {
             Log.d("test","getNickName");
             NickName = nameText.getText().toString();
 
             savePreferencesString("NickName", NickName);
+            savePreferencesInt("UserGrade", 0);
             SharedPreferences pref = getSharedPreferences("app", MODE_PRIVATE);
             Email = pref.getString("Email", "");
 
@@ -66,8 +74,9 @@ public class UserName extends AppCompatActivity {
 
                             if (namekey.equals("100")) {//닉네임 리퀘스트
                                 Toast.makeText(UserName.this, "반가워요"+" "+NickName+" 님!", Toast.LENGTH_SHORT).show();//!!!!!닉네임띄워주기!!
-                                Intent intent = new Intent(UserName.this, Fragment_main.class);
+                                Intent intent = new Intent(UserName.this, QuoteQuest.class);
                                 startActivity(intent);
+                                finish();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();  //에러 메시지 출력 logcat

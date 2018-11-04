@@ -27,27 +27,26 @@
             app:scale_top="140"
             android:textColor="#FC8C94"
             android:fontFamily="@font/nanumsquareb"
-            android:text="이름을 입력해주세요!" />
+            android:text="당신의 인생 명언은 무엇인가요?" />
 
 
         <EditText
-            android:id="@+id/nameEditText"
+            android:id="@+id/et_quote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical"
-            android:singleLine = "true"
-            android:lines = "1"
-            app:scale_textsize="10"
-            app:scale_height="45"
-            app:scale_width="200"
-            app:scale_top="170"
             android:fontFamily="@font/nanumsquarer"
-            android:hint="ex) 홍길동" />
+            android:gravity="center_vertical"
+            android:hint="ex) 이 또한 지나가리라!"
+            android:lines="1"
+            android:singleLine="true"
+            app:scale_height="45"
+            app:scale_textsize="10"
+            app:scale_top="170"
+            app:scale_width="200" />
 
         <Button
             android:id="@+id/nextButton"
-            android:fontFamily="@font/nanumsquarer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:scale_height="30"
@@ -58,6 +57,7 @@
             android:background="@android:color/transparent"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:onClick="onClick"
+            android:fontFamily="@font/nanumsquarer"
             android:text="NEXT >>"
             android:textColor="#FF819B"/>
 

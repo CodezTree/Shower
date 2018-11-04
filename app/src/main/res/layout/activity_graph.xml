@@ -43,7 +43,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="179dp"
+            android:layout_height="47dp"
             android:layout_gravity="center"
             app:scale_height="180"
             app:scale_width="270">
@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scalableLayout">
@@ -68,12 +68,25 @@
             android:id="@+id/RV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F6F6F6"
+            android:background="#ffffff"
             app:scale_textsize="10"
             app:scale_width="260">
 
         </android.support.v7.widget.RecyclerView>
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginBottom="244dp"
+        android:background="#FF7A83"
+        app:layout_constraintBottom_toBottomOf="@id/scalableLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.725" />
 
 </android.support.constraint.ConstraintLayout>

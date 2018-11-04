@@ -15,7 +15,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartActivity"
+        <activity
+            android:name=".StartActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,33 +24,44 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InternetActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".LoginActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".InternetActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".LoginActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".Main.GraphActivity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop"/>
-        <activity android:name=".SignUpActivity.SignUp1Activity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".SignUpActivity.SignUp2Activity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".Main.badgesActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".Request.UserName"
-            android:launchMode="singleTop"/>
-        <activity android:name=".Rainny"
-            android:launchMode="singleTop"/>
-        <activity android:name=".Tutorial.Tutorial1"
-            android:launchMode="singleTop"/>
-        <activity android:name=".Fragment_main"
-            android:launchMode="singleTop"/>
-        <activity android:name=".Tutorial.Tutorial6"
-            android:launchMode="singleTop"/>
-        <activity android:name=".ComingSoon"
-            android:launchMode="singleTop"/>
-        <activity android:name=".MemoActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SignUpActivity.SignUp1Activity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".SignUpActivity.SignUp2Activity"
+            android:launchMode="singleTop" />
+        <activity android:name=".Main.BadgeActivity"/>
+        <activity android:name=".Request.QuoteQuest"/>
+        <activity
+            android:name=".Request.UserName"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".Rainny"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".Tutorial.Tutorial1"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".Fragment_main"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".Tutorial.Tutorial6"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ComingSoon"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".MemoActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
@@ -57,7 +69,7 @@
             android:name=".SONAGIService"
             android:enabled="true"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <service
             android:name=".SoftKeyboard"
             android:permission="android.permission.BIND_INPUT_METHOD">
@@ -70,12 +82,11 @@
                 android:name="android.view.im"
                 android:resource="@xml/method" />
         </service>
-
-        <activity android:name=".Actionbar" />
-        <activity android:name=".Setting" />
         <activity
             android:name=".Slide"
-            android:label="@string/title_activity_slide"></activity>
+            android:label="@string/title_activity_slide" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".LogoutActivity"/>
     </application>
 
 </manifest>

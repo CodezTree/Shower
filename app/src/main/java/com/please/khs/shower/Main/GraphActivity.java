@@ -7,8 +7,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +25,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -36,6 +44,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.please.khs.shower.LogoutActivity;
 import com.please.khs.shower.MemoActivity;
 import com.please.khs.shower.MemoData;
 import com.please.khs.shower.R;
@@ -45,21 +54,23 @@ import com.please.khs.shower.SONAGIGlobalClass;
 import com.please.khs.shower.SONAGIListAdapter;
 import com.please.khs.shower.SONAGIMarkerView;
 import com.please.khs.shower.SONAGIService;
+import com.please.khs.shower.SettingActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import static java.lang.Math.abs;
 
-public class GraphActivity extends AppCompatActivity {
+public class GraphActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private long time = 0;
     private LineChart lineChart;
     Button memobtn;
-    TextView txtResult;
+    TextView txtResult, txtUserNameNavi, txtUserNickNavi, txtUserQuoteNavi;
     List<Entry> entries;
     IntentFilter mIntentFilter;
 
@@ -79,7 +90,6 @@ public class GraphActivity extends AppCompatActivity {
         intent.putExtra("timeOrder", timeOrder);
         intent.putExtra("time", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).dateTime);
         intent.putExtra("emotion", SONAGIGlobalClass.graphData.get(SONAGIGlobalClass.graphDataConnector.get(timeOrder)).emotion);
-        // TODO : get 이 null 인경우도 처리...?? ==> 뭐죠
         startActivityForResult(intent, 3000);
     }
 
@@ -123,32 +133,51 @@ public class GraphActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-    /*@Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d("test","on New Intent");
-
-        if (intent != null) {
-            if (intent.getStringExtra("kind").equals("memo")) {
-                showMemoActivity(intent.getIntExtra("timeOrder", 0));
-            }
-        }
-    }*/
+        txtUserNameNavi.setText(String.format("%s 님", getPreferencesString("NickName")));
+        txtUserNickNavi.setText(SONAGIGlobalClass.nickSet.get(getPreferencesInt("UserGrade")));
+        txtUserQuoteNavi.setText(getPreferencesString("UserQuote"));
+    }
 
     @SuppressLint("ClickableViewAccessibility")  // 노란색 워닝 보기 실어서
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph);
+        setContentView(R.layout.activity_graph_navi);
 
         appToolbar = (Toolbar) findViewById(R.id.graphToolbar);
         setSupportActionBar(appToolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_white);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, appToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        toggle.setDrawerIndicatorEnabled(false);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_dehaze_white, getTheme());
+        toggle.setHomeAsUpIndicator(drawable);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        View headerView = navigationView.getHeaderView(0);
+
+        txtUserNameNavi = (TextView) headerView.findViewById(R.id.tv_user_name);
+        txtUserNickNavi = (TextView) headerView.findViewById(R.id.tv_user_nick);
+        txtUserQuoteNavi = (TextView) headerView.findViewById(R.id.tv_user_quote);
 
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -165,27 +194,6 @@ public class GraphActivity extends AppCompatActivity {
             Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
             startService(intent);
         }
-        //Start Service TODO : Check whether service is working. if not, start service for works.
-
-
-        /*
-        //메모버튼
-        memobtn = findViewById(R.id.memoButton);
-
-        memobtn.setOnClickListener(new View.OnClickListener() {//nullpointException 오류!!
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GraphActivity.this, Memo.class);//원래memeo
-                intent.putExtra("data", "Test Popup");
-                startActivityForResult(intent, 1);
-                startActivity(intent);
-            }
-
-        });
-
-        //메모버튼끝 -> // TODO : 필요없으면 제거 요망
-        */
-        // Memo 정점 클릭
 
         // Dummy Data
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 00:00:00", "아", 6));
@@ -231,14 +239,23 @@ public class GraphActivity extends AppCompatActivity {
 
 
         // 감정 심화도 리스트
-        SONAGIGlobalClass.emotionSet.add("우울함");
+        SONAGIGlobalClass.emotionSet.add("우울");
+        SONAGIGlobalClass.emotionSet.add("긴장");
         SONAGIGlobalClass.emotionSet.add("짜증");
         SONAGIGlobalClass.emotionSet.add("긴장");
-        SONAGIGlobalClass.emotionSet.add("지침");
         SONAGIGlobalClass.emotionSet.add("만족");
         SONAGIGlobalClass.emotionSet.add("신남");
-        SONAGIGlobalClass.emotionSet.add("행복");
         SONAGIGlobalClass.emotionSet.add("즐거움");
+        SONAGIGlobalClass.emotionSet.add("행복");
+
+        // 감정 닉네임 리스트
+        SONAGIGlobalClass.nickSet.add("정체를 알 수 없는");
+        SONAGIGlobalClass.nickSet.add("슈퍼 파워 긍정");
+        SONAGIGlobalClass.nickSet.add("행복한 사람");
+        SONAGIGlobalClass.nickSet.add("사춘기 소년소녀");
+        SONAGIGlobalClass.nickSet.add("기분 전환이 필요한");
+        SONAGIGlobalClass.nickSet.add("우울 보스");
+
 
         lineChart = (LineChart)findViewById(R.id.chart);
 
@@ -369,7 +386,7 @@ public class GraphActivity extends AppCompatActivity {
         ll.setLineColor(Color.RED);
         ll.setLineWidth(0.4f);
 
-        /*LimitLine l1 = new LimitLine(1f, "우울함");
+        LimitLine l1 = new LimitLine(1f, "우울함");
         LimitLine l2 = new LimitLine(2f, "짜증");
         LimitLine l3 = new LimitLine(3f, "긴장");
         LimitLine l4 = new LimitLine(4f, "지침");
@@ -406,7 +423,6 @@ public class GraphActivity extends AppCompatActivity {
         yLAxis.addLimitLine(l6);
         yLAxis.addLimitLine(l7);
         yLAxis.addLimitLine(l8);
-        */
 
         Description description = new Description();
         description.setText("( 단위 : 시간 )");
@@ -421,17 +437,14 @@ public class GraphActivity extends AppCompatActivity {
         lineChart.setDoubleTapToZoomEnabled(false);
         lineChart.setDrawGridBackground(false);
         lineChart.setDescription(description);
-        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
+        lineChart.animateY(1200, Easing.EasingOption.EaseInCubic);
         lineChart.invalidate();
 
 
-        // test
-        /*
-
-        DateFormat dateFormat = new SimpleDateFormat("HH", Locale.KOREA);
-        Date now = new Date();
-        Toast.makeText(getApplicationContext(), dateFormat.format(now), Toast.LENGTH_LONG).show();
-        */
+        // Navigation Drawer Setting
+        txtUserNameNavi.setText(String.format("%s 님", getPreferencesString("NickName")));
+        txtUserNickNavi.setText(SONAGIGlobalClass.nickSet.get(getPreferencesInt("UserGrade")));
+        txtUserQuoteNavi.setText(getPreferencesString("UserQuote"));
     }
 
     public void refreshGraphData() {  // GraphRefresh
@@ -537,17 +550,36 @@ public class GraphActivity extends AppCompatActivity {
                 refreshGraphData();
                 break;
             case KeyEvent.KEYCODE_BACK:
-                if(System.currentTimeMillis() - time >= 1000) {
-                    time=System.currentTimeMillis();
-                    Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
-                }else if(System.currentTimeMillis() - time < 1000){
-                    finishAffinity();
-                    System.runFinalization();
-                    System.exit(0);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    if(System.currentTimeMillis() - time >= 1000) {
+                        time=System.currentTimeMillis();
+                        Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
+                    }else if(System.currentTimeMillis() - time < 1000){
+                        finishAffinity();
+                        System.runFinalization();
+                        System.exit(0);
+                    }
                 }
                 break;
         }
         return true;
+    }
+
+    public boolean activityIsRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService( Activity.ACTIVITY_SERVICE );
+        List<ActivityManager.RunningTaskInfo> list = manager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo info=list.get(0);
+
+        Log.d("test",info.topActivity.getClassName());
+
+        if(info.topActivity.getClassName().equals("com.please.khs.shower.Main.GraphActivity")){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public boolean isServiceRunningCheck() {
@@ -558,5 +590,36 @@ public class GraphActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_badge) {
+            Intent intent = new Intent(this, BadgeActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_setting) {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, LogoutActivity.class);
+            startActivity(intent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private String getPreferencesString(String key) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        return sharedPreferences.getString(key, null);
+    }
+
+    private int getPreferencesInt(String key) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        return sharedPreferences.getInt(key, -1);
     }
 }
