@@ -7,14 +7,18 @@
         <item
             android:id="@+id/nav_badge"
             android:icon="@drawable/thirtychk"
-            android:title="Badge" />
+            android:title="뱃지" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/setting"
-            android:title="Setting"/>
+            android:title="설정"/>
+        <item
+            android:id="@+id/nav_content_request"
+            android:icon="@drawable/ic_action_content"
+            android:title="콘텐츠 요청"/>
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_action_logout"
-            android:title="Quit"/>
+            android:title="로그아웃"/>
     </group>
 </menu>

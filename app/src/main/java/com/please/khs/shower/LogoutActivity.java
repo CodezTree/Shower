@@ -30,6 +30,7 @@ public class LogoutActivity extends AppCompatActivity {
                 savePreferencesInt("UserGrade", 0);
                 savePreferencesInt("ContentTime", 0);
                 savePreferencesInt("ContentUse", 1);
+                savePreferencesInt("EmotionAnalyzedTime", 0);
                 SONAGIGlobalClass.graphData.clear();
                 SONAGIGlobalClass.memoData.clear();
                 SONAGIGlobalClass.Sdb.clearDatabase();

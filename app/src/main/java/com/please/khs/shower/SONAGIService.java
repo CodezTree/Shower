@@ -100,8 +100,8 @@ public class SONAGIService extends Service {
                         Log.d("test", url);
                         Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(urlIntent);
-                    case "tester":
-                        Log.d("test", "test content request");
+                    case "contentRequest":
+                        Log.d("test", "content request");
                         requestContent(intent.getIntExtra("emotion", 0));
                         break;
                     default:
@@ -133,6 +133,24 @@ public class SONAGIService extends Service {
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction("graphRefresh");
                     getApplicationContext().sendBroadcast(broadcastIntent); // graph refresh
+
+                    int emotionAnalyzedTime = getPreferencesInt("EmotionAnalyzedTime");
+                    emotionAnalyzedTime++;
+                    savePreferencesInt("EmotionAnalyzedTime", emotionAnalyzedTime);
+
+                    if (emotionAnalyzedTime < 10) {
+                        savePreferencesInt("UserGrade", 0);
+                    } else if (emotionAnalyzedTime < 200) {
+                        savePreferencesInt("UserGrade", 1);
+                    } else if (emotionAnalyzedTime < 5000) {
+                        savePreferencesInt("UserGrade", 2);
+                    } else if (emotionAnalyzedTime < 20000) {
+                        savePreferencesInt("UserGrade", 3);
+                    } else if (emotionAnalyzedTime < 150000) {
+                        savePreferencesInt("UserGrade", 4);
+                    } else {
+                        savePreferencesInt("UserGrade", 5);
+                    }
 
                     String tempEmotion = SONAGIGlobalClass.emotionSet.get(processedEmotion);
                     // 3 감정 연속인지 확인

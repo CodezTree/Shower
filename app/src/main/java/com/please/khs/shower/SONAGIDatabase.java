@@ -233,15 +233,15 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
 
+        if (tempData.dateTime == null) {  // 반환된 데이터가 없는 경우
+            return null;
+        }
+
         Date recent = new Date();
         try {
             recent = dateFormat.parse(tempData.dateTime);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-        if (tempData.dateTime == null) {  // 반환된 데이터가 없는 경우
-            return null;
         }
 
         if ((now.getTime() - recent.getTime()) < 1000 * 60 * 60 * 5) { // Maximum 5 hour

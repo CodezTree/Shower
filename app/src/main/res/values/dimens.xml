@@ -6,7 +6,7 @@
     <dimen name="candidate_font_height">16sp</dimen>
     <dimen name="candidate_vertical_padding">6sp</dimen>
     <dimen name="nav_header_vertical_spacing">0dp</dimen>
-    <dimen name="nav_header_height">220dp</dimen>
+    <dimen name="nav_header_height">280dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

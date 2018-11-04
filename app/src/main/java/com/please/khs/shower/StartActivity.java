@@ -38,6 +38,10 @@ public class StartActivity extends AppCompatActivity {
             savePreferencesString("AppFirstTime", "true");
         }
 
+        if (getPreferencesInt("EmotionAnalyzedTime") == -1) {
+            savePreferencesInt("EmotionAnalyzedTime", 0);
+        }
+
         /*
 
         Preference 정리
@@ -48,13 +52,14 @@ public class StartActivity extends AppCompatActivity {
         ContentUse - 컨텐츠 제공 알림 여부 0 1 - false true int
         ContentTime - 컨텐츠 제공 시간 0 1 2 - 1 3 10 int
         AppFirstTime - 앱이 처음인지. true , false String
+        EmotionAnalyzedTime - 감정 분석 횟수. 칭호 얻을 수 있다!
 
          */
 
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                Intent mainIntent = new Intent(StartActivity.this, GraphActivity.class); // TODO : for test
+                Intent mainIntent = new Intent(StartActivity.this, LoginActivity.class);
                 StartActivity.this.startActivity(mainIntent);
                 StartActivity.this.finish();
             }

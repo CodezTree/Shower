@@ -169,7 +169,7 @@
         android:layout_marginTop="8dp"
         android:ems="14"
         android:fontFamily="@font/nanumsquarer"
-        android:text="잘 작동 되나요?"
+        android:hint="잘 작동 되나요?"
         android:textAlignment="center"
         android:textColor="#939191"
         android:textSize="14sp"

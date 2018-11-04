@@ -212,7 +212,7 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         }
 
         // Dummy Data
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 00:00:00", "아", 6));
+        /*SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 00:00:00", "아", 6));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 01:00:00", "아", 1));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 02:00:00", "아", 2));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 03:00:00", "아", 7));
@@ -235,13 +235,13 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 20:00:00", "아", 5));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 21:00:00", "아", 1));
         SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 22:00:00", "아", 7));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 23:00:00", "아", 6));
+        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 23:00:00", "아", 6));*/
 
 
         // for test
-        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 01:00:00", "슬퍼라...", 1));
+        /*SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 01:00:00", "슬퍼라...", 1));
         SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 02:00:00", "에구... 연습 잘 못한날..", 1));
-        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 03:00:00", "난 왜 실수투성이일까...싶다", 3));
+        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 03:00:00", "난 왜 실수투성이일까...싶다", 3));*/
 
         madapter.notifyDataSetChanged();
         //for test
@@ -264,18 +264,27 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         SONAGIGlobalClass.emotionSet.add("즐거움");
         SONAGIGlobalClass.emotionSet.add("행복");
 
-        // 감정 닉네임 리스트
+        /*// 감정 닉네임 리스트 나중에 쓸거.
         SONAGIGlobalClass.nickSet.add("정체를 알 수 없는");
         SONAGIGlobalClass.nickSet.add("슈퍼 파워 긍정");
         SONAGIGlobalClass.nickSet.add("행복한 사람");
         SONAGIGlobalClass.nickSet.add("사춘기 소년소녀");
         SONAGIGlobalClass.nickSet.add("기분 전환이 필요한");
-        SONAGIGlobalClass.nickSet.add("우울 보스");
+        SONAGIGlobalClass.nickSet.add("우울 보스");*/
+
+        // 감정 닉네임 리스트
+        SONAGIGlobalClass.nickSet.add("정체를 알 수 없는");
+        SONAGIGlobalClass.nickSet.add("감정 초심자");
+        SONAGIGlobalClass.nickSet.add("내면 탐색가");
+        SONAGIGlobalClass.nickSet.add("감정 성찰자");
+        SONAGIGlobalClass.nickSet.add("더 리마인더");
+        SONAGIGlobalClass.nickSet.add("더 마인드 컨트롤러");
 
 
         lineChart = (LineChart)findViewById(R.id.chart);
 
         entries = new ArrayList<>(); // Dummy data
+        /*
         entries.add(new Entry(0, 6));
         entries.add(new Entry(1, 1));
         entries.add(new Entry(2, 2));
@@ -299,8 +308,9 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         entries.add(new Entry(20, 4));
         entries.add(new Entry(21, 1));
         entries.add(new Entry(22, 7));
-        entries.add(new Entry(23, 6));
+        entries.add(new Entry(23, 6));*/
         // dummy data --------
+        entries.add(new Entry(0, -1));
 
         LineDataSet lineDataSet = new LineDataSet(entries, "나의 감정");//라벨은 line이 무엇을 나타내는지
         lineDataSet.setLineWidth(3);
@@ -330,8 +340,8 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
 
         // 그래프 확대 축소 안되게
         lineChart.setPinchZoom(false);
-        lineChart.getViewPortHandler().setMaximumScaleX((float)entries.size() / 7);
-        lineChart.getViewPortHandler().setMinimumScaleX((float)entries.size() / 7);
+        lineChart.getViewPortHandler().setMaximumScaleX((float)24 / 7);
+        lineChart.getViewPortHandler().setMinimumScaleX((float)24 / 7);
         lineChart.getViewPortHandler().setDragOffsetX(7f);
 
         lineChart.setHighlightPerTapEnabled(false);
@@ -461,6 +471,11 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         txtUserNameNavi.setText(String.format("%s 님", getPreferencesString("NickName")));
         txtUserNickNavi.setText(SONAGIGlobalClass.nickSet.get(getPreferencesInt("UserGrade")));
         txtUserQuoteNavi.setText(getPreferencesString("UserQuote"));
+
+        DateFormat dateFormat = new SimpleDateFormat("HH", Locale.KOREA);
+        Date now = new Date();
+
+        startHour = Integer.parseInt(dateFormat.format(now));
     }
 
     public void refreshGraphData() {  // GraphRefresh
@@ -529,6 +544,9 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         lineChart.getViewPortHandler().setMinimumScaleX((float)24 / 7);
         //lineChart.getViewPortHandler().setZoom(0.1f, 0.1f);
         lineChart.invalidate();
+
+        refreshGraphData();
+        refreshTimelineData();
     }
 
     private long cutToHour(long time) {
@@ -556,25 +574,17 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         switch(keycode)
         {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                //TODO : roll back here
-                Intent broadcastIntent = new Intent();
-                broadcastIntent.setAction("tester");
-                // broadcastIntent.putExtra("emotion", tempData.emotion);
-                broadcastIntent.putExtra("emotion", 1);
-                sendBroadcast(broadcastIntent);
-
                 /*SONAGIData tempData = SONAGIGlobalClass.Sdb.getLatestEmotion();
                 if (tempData != null) {
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction("tester");
-                    // broadcastIntent.putExtra("emotion", tempData.emotion);
-                    broadcastIntent.putExtra("emotion", 1);
+                    broadcastIntent.putExtra("emotion", tempData.emotion);
                     sendBroadcast(broadcastIntent);
                 }*/
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
                 // SONAGIGlobalClass.Sdb.testWrite();
-                refreshGraphData();
+                //refreshGraphData();
                 break;
             case KeyEvent.KEYCODE_BACK:
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -633,6 +643,14 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, LogoutActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_content_request) {
+            SONAGIData tempData = SONAGIGlobalClass.Sdb.getLatestEmotion();
+            if (tempData != null) {
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.setAction("contentRequest");
+                broadcastIntent.putExtra("emotion", tempData.emotion);
+                sendBroadcast(broadcastIntent);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
