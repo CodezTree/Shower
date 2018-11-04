@@ -228,7 +228,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView11"
+        android:id="@+id/rannyImageSetting"
         android:layout_width="221dp"
         android:layout_height="187dp"
         android:layout_marginBottom="8dp"
@@ -240,6 +240,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/rainy500" />
+        app:srcCompat="@drawable/rainy" />
 
 </android.support.constraint.ConstraintLayout>

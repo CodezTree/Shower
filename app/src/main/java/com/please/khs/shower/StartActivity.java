@@ -30,6 +30,23 @@ public class StartActivity extends AppCompatActivity {
             savePreferencesString("UserQuote", "문구를 설정해 주세요!");
         }
 
+        if (getPreferencesInt("ContentUse") == -1) {
+            savePreferencesInt("ContentUse", 1);
+        }
+
+        /*
+
+        Preference 정리
+
+        NickName - 유저 이름 - Name String
+        UserQuote - 유저 문구 - String
+        UserGrade - 유저 등급 - 0 1 2... - grade int
+        ContentUse - 컨텐츠 제공 알림 여부 0 1 - false true int
+        ContentTime - 컨텐츠 제공 시간 0 1 2 - 1 3 10 int
+        AppFirstTime - 앱이 처음인지. true , false String
+
+         */
+
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {

@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.IBinder;
@@ -205,13 +206,37 @@ public class SONAGIService extends Service {
                 Thread.sleep(s);
 
                 while(true) {
-                    SONAGIData latestData = SONAGIGlobalClass.Sdb.getLatestEmotion();
-                    if (latestData != null) {
-                        requestContent(latestData.emotion);
-                        s = 1000 * 60 * 60;
-                        Thread.sleep(s); // One Hour Latency
+                    if (getPreferencesInt("ContentUse") == 1) {
+                        SONAGIData latestData = SONAGIGlobalClass.Sdb.getLatestEmotion();
+                        if (latestData != null) {
+                            requestContent(latestData.emotion);
+                            switch(getPreferencesInt("ContentTime")) { // Set Content Reshow time
+                                case 0:
+                                    s = 1000 * 60 * 60;
+                                    break;
+                                case 1:
+                                    s = 1000 * 60 * 60 * 3;
+                                    break;
+                                case 2:
+                                    s = 1000 * 60 * 60 * 10;
+                                    break;
+                            }
+                            Thread.sleep(s); // One Hour Latency
+                        } else {
+                            switch(getPreferencesInt("ContentTime")) {
+                                case 0:
+                                    s = 1000 * 60 * 60;
+                                    break;
+                                case 1:
+                                    s = 1000 * 60 * 60 * 3;
+                                    break;
+                                case 2:
+                                    s = 1000 * 60 * 60 * 10;
+                                    break;
+                            }
+                            Thread.sleep(s);
+                        }
                     } else {
-                        s = 1000 * 60 * 30;
                         Thread.sleep(s);
                     }
                 }
@@ -219,6 +244,29 @@ public class SONAGIService extends Service {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String getPreferencesString(String key) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        return sharedPreferences.getString(key, null);
+    }
+
+    private int getPreferencesInt(String key) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        return sharedPreferences.getInt(key, -1);
+    }
+
+    private void savePreferencesString(String key, String value) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+    private void savePreferencesInt(String key, int value) {
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
     }
 
 }

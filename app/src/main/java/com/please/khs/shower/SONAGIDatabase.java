@@ -9,8 +9,10 @@ import android.util.Log;
 import android.widget.EditText;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -220,10 +222,13 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
     public SONAGIData getLatestEmotion() {
         SQLiteDatabase rdb = getReadableDatabase();
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
+
         SONAGIData tempData = new SONAGIData();
         String sqlQuery = "SELECT * FROM tableEmotion ORDER BY time DESC limit 1";
 
         tempData.dateTime = null;
+        Date now = new Date();
 
         try {
             Cursor cursor = rdb.rawQuery(sqlQuery, null);
@@ -238,11 +243,22 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
             e.printStackTrace();
         }
 
+        Date recent = new Date();
+        try {
+            recent = dateFormat.parse(tempData.dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if (tempData.dateTime == null) {  // 반환된 데이터가 없는 경우
             return null;
         }
 
-        return tempData;
+        if ((now.getTime() - recent.getTime()) < 1000 * 60 * 60 * 5) { // Maximum 5 hour
+            return tempData;
+        } else {
+            return null;
+        }
     }
 
     // DB Creation

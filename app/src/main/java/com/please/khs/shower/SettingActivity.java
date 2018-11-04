@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
@@ -26,6 +27,7 @@ public class SettingActivity extends AppCompatActivity {
         alarmButton = (Button) findViewById(R.id.bt_alarm_gap_set);
         usernameButton = (Button) findViewById(R.id.bt_username_set);
         userquoteButton = (Button) findViewById(R.id.bt_userquote_set);
+
         contentSwitch = (Switch)  findViewById(R.id.sw_content_set);
 
         usernameEt = (EditText) findViewById(R.id.et_username_setting);
@@ -35,16 +37,29 @@ public class SettingActivity extends AppCompatActivity {
         rb_2 = (RadioButton) findViewById(R.id.rb_3hour);
         rb_3 = (RadioButton) findViewById(R.id.rb_10hour);
 
+        contentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    savePreferencesInt("ContentUse", 1);
+                } else {
+                    savePreferencesInt("ContentUse", 0);
+                }
+            }
+        });
+
         alarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (rb_1.isChecked()) {
-
+                    savePreferencesInt("ContentTime", 0);
                 } else if (rb_2.isChecked()) {
-
+                    savePreferencesInt("ContentTime", 1);
                 } else if (rb_3.isChecked()) {
-
+                    savePreferencesInt("ContentTime", 2);
                 }
+
+                Toast.makeText(SettingActivity.this, "컨텐츠 제공 시간 변경 완료", Toast.LENGTH_SHORT).show();
             }
         });
 

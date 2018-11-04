@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginBottom="244dp"
-        android:background="#FF7A83"
+        android:background="#ffb2b7"
         app:layout_constraintBottom_toBottomOf="@id/scalableLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

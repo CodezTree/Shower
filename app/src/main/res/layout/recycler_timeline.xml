@@ -70,7 +70,7 @@
             android:layout_gravity="center|left"
             android:scaleX="2"
             android:scaleY="2"
-            app:scale_left="10"
+            app:scale_left="20"
             app:scale_width="20"
             app:scale_height="20"
             app:srcCompat="@drawable/double_downpyo_pink" />
@@ -85,7 +85,7 @@
             android:scaleY="2"
             app:scale_height="20"
             app:scale_width="20"
-            app:scale_left="120"
+            app:scale_left="110"
             app:srcCompat="@drawable/double_downpyo_pink" />
     </com.ssomai.android.scalablelayout.ScalableLayout>
 </LinearLayout>
