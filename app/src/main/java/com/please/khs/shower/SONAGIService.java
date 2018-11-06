@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -30,27 +31,28 @@ public class SONAGIService extends Service {
     public static final String mBroadcastProcessMsgActionService = "p.m.a.action";
     public static final String mBroadcastContentActionService = "c.a.action";
     // Broadcast를 위한 액션 등록
-    String firstEm = null, secondEm = null;
+    String firstEm = "a", secondEm = "b";
+    public static SONAGIDatabase SDB; // 접근권한을 가지고 있어야 하는데...ㅠ
 
     private IntentFilter mIntentFilter;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        SONAGIGlobalClass.Sdb = new SONAGIDatabase(getApplicationContext(), "SONAGI", null, 1);
-
+        Log.d("test", "hello service");
 
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(mBroadcastProcessMsgActionService);
         mIntentFilter.addAction(mBroadcastContentActionService);
-        mIntentFilter.addAction("tester");
+        mIntentFilter.addAction("contentRequest");
         // Broadcast intent 확인할 Intent Filter를 추가.
 
         registerReceiver(mReceiver, mIntentFilter); // mReceiver = BroadcastReceiver
 
         contentWorker cW = new contentWorker();
         cW.start(); // Start Thread
+
+        SDB = SONAGIGlobalClass.Sdb;
     }
 
 
@@ -126,8 +128,8 @@ public class SONAGIService extends Service {
                     String processTime = sdf.format(new Date(System.currentTimeMillis()));
                     int processedEmotion = Integer.parseInt(response);
 
-                    SONAGIGlobalClass.Sdb.putMsgData(processTime, fmsg, processedEmotion);
                     Log.d("test","process time : "+processTime+"  emotion : "+Integer.toString(processedEmotion));
+                    SDB.putMsgData(processTime, fmsg, processedEmotion);
 
                     // GraphRefresh
                     Intent broadcastIntent = new Intent();
@@ -234,33 +236,13 @@ public class SONAGIService extends Service {
 
                 while(true) {
                     if (getPreferencesInt("ContentUse") == 1) {
-                        SONAGIData latestData = SONAGIGlobalClass.Sdb.getLatestEmotion();
+                        SONAGIData latestData = SDB.getLatestEmotion();
                         if (latestData != null) {
                             requestContent(latestData.emotion);
-                            switch(getPreferencesInt("ContentTime")) { // Set Content Reshow time
-                                case 0:
-                                    s = 1000 * 60 * 60;
-                                    break;
-                                case 1:
-                                    s = 1000 * 60 * 60 * 3;
-                                    break;
-                                case 2:
-                                    s = 1000 * 60 * 60 * 10;
-                                    break;
-                            }
+                            s = calcTime(); // 뻘짓입니다 ㅎㅎ
                             Thread.sleep(s); // One Hour Latency
                         } else {
-                            switch(getPreferencesInt("ContentTime")) {
-                                case 0:
-                                    s = 1000 * 60 * 60;
-                                    break;
-                                case 1:
-                                    s = 1000 * 60 * 60 * 3;
-                                    break;
-                                case 2:
-                                    s = 1000 * 60 * 60 * 10;
-                                    break;
-                            }
+                            s = 1000 * 60 * 30;
                             Thread.sleep(s);
                         }
                     } else {
@@ -271,6 +253,17 @@ public class SONAGIService extends Service {
                 e.printStackTrace();
             }
         }
+    }
+    private int calcTime() {
+        switch(getPreferencesInt("ContentTime")) {
+            case 0:
+                return 1000 * 60 * 60;
+            case 1:
+                return 1000 * 60 * 60 * 3;
+            case 2:
+                return 1000 * 60 * 60 * 10;
+        }
+        return -1; //error
     }
 
     private String getPreferencesString(String key) {

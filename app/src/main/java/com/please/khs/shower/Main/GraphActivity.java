@@ -55,6 +55,7 @@ import com.please.khs.shower.SONAGIListAdapter;
 import com.please.khs.shower.SONAGIMarkerView;
 import com.please.khs.shower.SONAGIService;
 import com.please.khs.shower.SettingActivity;
+import com.ssomai.android.scalablelayout.ScalableLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -73,6 +74,8 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
     TextView txtResult, txtUserNameNavi, txtUserNickNavi, txtUserQuoteNavi;
     List<Entry> entries;
     IntentFilter mIntentFilter;
+
+    ScalableLayout emptyGraphLayout, emptyTimelineLayout;
 
     int startHour = 1; // 1시 정상적 Start
 
@@ -156,6 +159,9 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         txtUserNameNavi.setText(String.format("%s 님", getPreferencesString("NickName")));
         txtUserNickNavi.setText(SONAGIGlobalClass.nickSet.get(getPreferencesInt("UserGrade")));
         txtUserQuoteNavi.setText(getPreferencesString("UserQuote"));
+
+        refreshTimelineData();
+        refreshGraphData();
     }
 
     @SuppressLint("ClickableViewAccessibility")  // 노란색 워닝 보기 실어서
@@ -191,6 +197,12 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
 
         View headerView = navigationView.getHeaderView(0);
 
+        emptyGraphLayout = (ScalableLayout) findViewById(R.id.graphEmptyLayout);
+        emptyTimelineLayout = (ScalableLayout) findViewById(R.id.timelineEmptyLayout);
+
+        emptyTimelineLayout.setVisibility(View.VISIBLE);
+        emptyGraphLayout.setVisibility(View.VISIBLE);
+
         txtUserNameNavi = (TextView) headerView.findViewById(R.id.tv_user_name);
         txtUserNickNavi = (TextView) headerView.findViewById(R.id.tv_user_nick);
         txtUserQuoteNavi = (TextView) headerView.findViewById(R.id.tv_user_quote);
@@ -210,38 +222,6 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
             Intent intent = new Intent(GraphActivity.this, SONAGIService.class);
             startService(intent);
         }
-
-        // Dummy Data
-        /*SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 00:00:00", "아", 6));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 01:00:00", "아", 1));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 02:00:00", "아", 2));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 03:00:00", "아", 7));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 04:00:00", "아", 4));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 05:00:00", "아", 5));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 06:00:00", "아", 8));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 07:00:00", "아", 3));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 08:00:00", "아", 2));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 09:00:00", "아", 5));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 10:00:00", "아", 7));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 11:00:00", "아", 1));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 12:00:00", "아", 4));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 13:00:00", "아", 4));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 14:00:00", "아", 6));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 15:00:00", "아", 5));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 16:00:00", "아", 4));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 17:00:00", "아", 1));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 18:00:00", "아", 8));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 19:00:00", "아", 6));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 20:00:00", "아", 5));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 21:00:00", "아", 1));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 22:00:00", "아", 7));
-        SONAGIGlobalClass.graphData.add(new SONAGIData("2018-09-29 23:00:00", "아", 6));*/
-
-
-        // for test
-        /*SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 01:00:00", "슬퍼라...", 1));
-        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 02:00:00", "에구... 연습 잘 못한날..", 1));
-        SONAGIGlobalClass.memoData.add(new MemoData("2018-09-29 03:00:00", "난 왜 실수투성이일까...싶다", 3));*/
 
         madapter.notifyDataSetChanged();
         //for test
@@ -375,17 +355,20 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         });
 
         //-- custom ( time data )
-        final String[] quarters = new String[] {"24시", "1시", "2시", "3시", "4시", "5시","6시", "7시", "8시", "9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시", "20시", "21시", "22시", "23시"};
+        final String[] quarters = new String[] {"24시", "1시", "2시", "3시", "4시", "5시","6시", "7시", "8시", "9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시", "20시", "21시", "22시", "23시", "X"};
 
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 Log.d("refresh", Float.toString(value));
-                if (startHour == 0) {
-                    return quarters[(int) value % 24];
-                } else {
-                    return quarters[(int) (startHour + value) % 24];
+                if (value >= 0) {
+                    if (startHour == 0) {
+                        return quarters[(int) value % 24];
+                    } else {
+                        return quarters[(int) (startHour + value) % 24];
+                    }
                 }
+                return quarters[24];
             }
         };
         //-- custom
@@ -476,6 +459,9 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         Date now = new Date();
 
         startHour = Integer.parseInt(dateFormat.format(now));
+
+        refreshGraphData();
+        refreshTimelineData();
     }
 
     public void refreshGraphData() {  // GraphRefresh
@@ -494,6 +480,7 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
 
         SONAGIGlobalClass.graphData = SONAGIGlobalClass.Sdb.getEmotionDataListFromTime(dateFormat.format(start), dateFormat.format(now)); // 지금 Hour로 부터 3일 전까지 불러온다.
         List<Entry> tempEntries = new ArrayList<>();
+        Log.d("test",Integer.toString(SONAGIGlobalClass.graphData.size()));
 
         startHour = Integer.parseInt(dateFormat1.format(start)); // 계산 시작 시간
         int hour;
@@ -518,7 +505,22 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
 
         if (tempEntries.size() == 0) {
             tempEntries.add(new Entry(0f, -1f));
-        } // 튕김 방지.... 0일때
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    emptyGraphLayout.setVisibility(View.VISIBLE);
+                }
+            });
+
+            // 튕김 방지.... 0일때
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    emptyGraphLayout.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
 
         SONAGIGlobalClass.graphDataConnector = tempArr;
 
@@ -542,11 +544,7 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         lineChart.setData(tempLineData);
         lineChart.getViewPortHandler().setMaximumScaleX((float)24 / 7);
         lineChart.getViewPortHandler().setMinimumScaleX((float)24 / 7);
-        //lineChart.getViewPortHandler().setZoom(0.1f, 0.1f);
         lineChart.invalidate();
-
-        refreshGraphData();
-        refreshTimelineData();
     }
 
     private long cutToHour(long time) {
@@ -563,9 +561,32 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         now.setTime(cutToHour(now.getTime()) + 59 * 60 * 1000 + 999); // XX시 59분 59초
         start.setTime(cutToHour(now.getTime() - (3 * 24 * 60 * 60 * 1000))); // 3일 전
 
-        SONAGIGlobalClass.memoData = SONAGIGlobalClass.Sdb.getMemoDataListFromTime(dateFormat.format(start), dateFormat.format(now)); // 지금 Hour로 부터 24시간 전까지 불러온다.
+        SONAGIGlobalClass.memoData.clear();
+        SONAGIGlobalClass.memoData.addAll(SONAGIGlobalClass.Sdb.getMemoDataListFromTime(dateFormat.format(start), dateFormat.format(now))); // 지금 Hour로 부터 24시간 전까지 불러온다. addAll은 포인터 유지시키기 위함.
+        Log.d("test",String.format("memo Size : %d", SONAGIGlobalClass.memoData.size()));
 
-        madapter.notifyDataSetChanged();
+        if (SONAGIGlobalClass.memoData.size() == 0) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    emptyTimelineLayout.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    emptyTimelineLayout.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                madapter.notifyDataSetChanged();
+            }
+        }); //GraphData Changed Notify
     }
 
     @Override
@@ -574,16 +595,37 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         switch(keycode)
         {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                /*SONAGIData tempData = SONAGIGlobalClass.Sdb.getLatestEmotion();
-                if (tempData != null) {
-                    Intent broadcastIntent = new Intent();
-                    broadcastIntent.setAction("tester");
-                    broadcastIntent.putExtra("emotion", tempData.emotion);
-                    sendBroadcast(broadcastIntent);
-                }*/
+                // Debug Key
+
+                // Dummy Data
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 00:00:00", "아이스크림", 5);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 01:00:00", "아이스크림", 3);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 02:00:00", "아이스크림", 1);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 03:00:00", "아먹고싶어", 7);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 04:00:00", "아헤헤ㅔㅎ", 6);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 05:00:00", "아드헤헤헿", 3);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 06:00:00", "아이스크림", 5);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 07:00:00", "아으에헤헤", 1);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 08:00:00", "아헤헤헤", 2);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 09:00:00", "아ㅁㄴㅇㄹ", 6);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 10:00:00", "아앙", 8);
+                SONAGIGlobalClass.Sdb.putMsgData("2018-11-05 11:00:00", "아오 왜 그래", 1);
+
+                // for test
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 00:00:00", "웬지 개발이 빨리 끝날 것 같은 기분이다!!", 5);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 02:00:00", "자지도 못하고 숙제도 못하고 개발하고 있네...", 1);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 03:00:00", "와앙 그래프가 작동되고있어요!\n 개발자 만세!", 7);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 05:00:00", "숙제가 정말 잘 끝내진것 같아요!!", 5);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 06:00:00", "숙제를 드디어 끝냈어", 3);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 08:00:00", "난 왜 실수투성이일까..... 어후", 2);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 09:00:00", "맛있는 계절밥상을 먹었어!!!", 6);
+                SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 11:00:00", "앗.. 돈을 잃어버렸다... 택시에 두고 내렸나?", 1);
+
+                refreshGraphData();
+                refreshTimelineData();
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
-                // SONAGIGlobalClass.Sdb.testWrite();
+                //SONAGIGlobalClass.Sdb.testWrite();
                 //refreshGraphData();
                 break;
             case KeyEvent.KEYCODE_BACK:

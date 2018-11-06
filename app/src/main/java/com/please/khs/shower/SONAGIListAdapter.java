@@ -38,7 +38,7 @@ public class SONAGIListAdapter extends RecyclerView.Adapter<SONAGIListAdapter.Vi
         MemoData memData = memoList.get(position);
 
         holder.memo_text.setText(memData.memo);
-        holder.time_text.setText(memData.time.substring(11, 19));
+        holder.time_text.setText(String.format("%s시", memData.time.substring(0, 13)));
         if (memData.emotion <= 4) {
             holder.right_punc.setImageResource(R.drawable.double_downpyo_blue);
             holder.left_punc.setImageResource(R.drawable.double_downpyo_blue);

@@ -21,7 +21,7 @@
             app:scale_width="180"
             app:scale_height="200"
             app:scale_left="20"
-            app:srcCompat="@drawable/timeline_pink" />
+            app:srcCompat="@drawable/timeline_pink"/>
 
         <TextView
             android:id="@+id/timeText"

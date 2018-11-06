@@ -30,22 +30,64 @@
     </android.support.v7.widget.Toolbar>
 
     <com.ssomai.android.scalablelayout.ScalableLayout
-        android:id="@+id/scalableLayout"
+        android:id="@+id/graphEmptyLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/graphToolbar"
-        app:scale_base_height="180"
+        app:scale_base_height="160"
+        app:scale_base_width="270"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:scale_height="160"
+            app:scale_width="270"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_graph"
+                android:tint="#ffb2b7"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nanumsquarer"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:textColor="#939191"
+                android:text="아직 그래프 데이터가 없군요!\n키보드를 사용해보세요!"/>
+        </LinearLayout>
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:id="@+id/graphLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graphToolbar"
+        app:scale_base_height="160"
         app:scale_base_width="270">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="47dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            app:scale_height="180"
+            app:scale_height="160"
             app:scale_width="270">
 
         </com.github.mikephil.charting.charts.LineChart>
@@ -54,39 +96,91 @@
 
 
     <com.ssomai.android.scalablelayout.ScalableLayout
-        android:id="@+id/scalableLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
+        android:id="@+id/timelineLayout"
+        android:layout_width="match_parent"
+        android:layout_height="295dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scalableLayout">
+        app:layout_constraintTop_toTopOf="@+id/graphToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        app:scale_base_height="200"
+        app:scale_base_width="250">
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
             android:background="#ffffff"
+            app:scale_height="200"
             app:scale_textsize="10"
-            app:scale_width="260">
+            app:scale_width="250">
 
         </android.support.v7.widget.RecyclerView>
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:id="@+id/timelineEmptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="295dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/graphToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        app:scale_base_height="200"
+        app:scale_base_width="250"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="299dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:scale_height="200"
+            app:scale_width="250">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="70dp"
+                android:src="@drawable/ic_nothing"
+                android:tint="#bdbdbd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/nanumsquareb"
+                android:text="아직 메모를 안하셨네요!\n그래프 정점을 눌러 메모를 해보세요!"
+                android:textAlignment="center"
+                android:textColor="#939191"
+                android:textSize="20sp" />
+
+        </LinearLayout>
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="10dp"
         android:layout_marginBottom="244dp"
         android:background="#ffb2b7"
-        app:layout_constraintBottom_toBottomOf="@id/scalableLayout3"
+        app:layout_constraintBottom_toBottomOf="@id/timelineLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.725" />
+        app:layout_constraintVertical_bias="0.888" />
 
 </android.support.constraint.ConstraintLayout>

@@ -44,6 +44,7 @@ import android.view.inputmethod.InputConnection;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /*
@@ -231,6 +232,9 @@ public class SoftKeyboard extends InputMethodService
             Intent intent = new Intent(getApplicationContext(), SONAGIService.class);
             startService(intent); // 서비스 시작
         }
+
+        //serviceWaker sW = new serviceWaker();
+        //sW.run();
     }
 
     public boolean isServiceRunningCheck() {
@@ -241,6 +245,24 @@ public class SoftKeyboard extends InputMethodService
             }
         }
         return false;
+    }
+
+    public class serviceWaker extends Thread {
+        public void run(){
+            long s = 1000 * 60 * 10;
+            try {
+                while (true) {
+                    if (!isServiceRunningCheck()) {
+                        Intent intent = new Intent(getApplicationContext(), SONAGIService.class);
+                        startService(intent); // 서비스 시작
+                    }
+
+                    Thread.sleep(s);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
