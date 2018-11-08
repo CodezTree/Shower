@@ -59,7 +59,7 @@ public class MemoActivity extends AppCompatActivity {
 
         // 액티비티 바깥화면이 클릭되어도 종료되지 않게 설정하기
         this.setFinishOnTouchOutside(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);  // SONAGI 안뜨게
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);  // SONAGI 안뜨게
 
         memoText = findViewById(R.id.memotext);
         memoText.setText(intent.getStringExtra("memo"));

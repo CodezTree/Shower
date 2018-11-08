@@ -484,6 +484,10 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
 
         startHour = Integer.parseInt(dateFormat1.format(start)); // 계산 시작 시간
         int hour;
+        long baseTime;
+        SONAGIData tempData;
+
+        baseTime = start.getTime();
 
         try {
             for (int i = 0; i < 72; i++) {
@@ -491,9 +495,11 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
                     break;
                 }
 
-                hour = Integer.parseInt(dateFormat1.format(dateFormat.parse(SONAGIGlobalClass.graphData.get(tempIndexer).dateTime)));
+                tempData = SONAGIGlobalClass.graphData.get(tempIndexer);
 
-                if (hour == (startHour + i) % 24) {
+                hour = Integer.parseInt(dateFormat1.format(dateFormat.parse(tempData.dateTime)));
+
+                if ((hour == (startHour + i) % 24) && (dateFormat.parse(tempData.dateTime).getTime() - baseTime < 1000 * 60 * 60 * 24 * (Math.floor(i / 24) + 1))) {
                     tempEntries.add(new Entry((float)i, SONAGIGlobalClass.graphData.get(tempIndexer).emotion));
                     tempArr.append(i, tempIndexer);
                     tempIndexer++;
@@ -542,8 +548,9 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         LineData tempLineData = new LineData(tempLineDataSet);
 
         lineChart.setData(tempLineData);
-        lineChart.getViewPortHandler().setMaximumScaleX((float)24 / 7);
-        lineChart.getViewPortHandler().setMinimumScaleX((float)24 / 7);
+        lineChart.getViewPortHandler().setMaximumScaleX((tempEntries.get(tempEntries.size() - 1).getX() - tempEntries.get(0).getX()) / 8);
+        lineChart.getViewPortHandler().setMinimumScaleX((tempEntries.get(tempEntries.size() - 1).getX() - tempEntries.get(0).getX()) / 8);
+        Log.d("test",Float.toString(lineChart.getViewPortHandler().getScaleX()));
         lineChart.invalidate();
     }
 
@@ -595,6 +602,7 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
         switch(keycode)
         {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
+                /*
                 // Debug Key
 
                 // Dummy Data
@@ -620,9 +628,11 @@ public class GraphActivity extends AppCompatActivity implements NavigationView.O
                 SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 08:00:00", "난 왜 실수투성이일까..... 어후", 2);
                 SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 09:00:00", "맛있는 계절밥상을 먹었어!!!", 6);
                 SONAGIGlobalClass.Sdb.putMemoData("2018-11-05 11:00:00", "앗.. 돈을 잃어버렸다... 택시에 두고 내렸나?", 1);
+                */
 
                 refreshGraphData();
                 refreshTimelineData();
+
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
                 //SONAGIGlobalClass.Sdb.testWrite();

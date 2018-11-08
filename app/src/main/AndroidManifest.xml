@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".StartActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,44 +26,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InternetActivity"/>
+            android:name=".InternetActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity android:name=".KeyboardSettingActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Main.GraphActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".SignUpActivity.SignUp1Activity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SignUpActivity.SignUp2Activity"
-            android:launchMode="singleTop" />
-        <activity android:name=".Main.BadgeActivity"/>
-        <activity android:name=".Request.QuoteQuest"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Main.BadgeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Request.QuoteQuest"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Request.UserName"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".Rainny"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".Tutorial.Tutorial1"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".Fragment_main"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".Tutorial.Tutorial6"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".ComingSoon"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".MemoActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
@@ -84,8 +100,10 @@
                 android:resource="@xml/method" />
         </service>
 
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".LogoutActivity"/>
+        <activity android:name=".SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LogoutActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

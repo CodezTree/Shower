@@ -80,7 +80,13 @@ public class SONAGIDatabase extends SQLiteOpenHelper{
 
             if (diff == 0) {  // 처리된 시간단위가 같다면
                 // UPDATE 구문으로 msg 추가시켜주고, emotion을 최신 으로 업데이트 시켜준다
-                String sql = String.format(Locale.KOREA,"UPDATE tableEmotion SET msg = '%s', emotion = %d WHERE time = '%s'", time, loadedMsg + msg, emotion, loadedTime); // Locale 왜 쓰는지 알아보기. Warning 이유
+                String tempStr = loadedMsg + msg;
+
+                if (tempStr.length() > 2000)
+                {
+                    tempStr = tempStr.substring(tempStr.length() - 2000, tempStr.length()); // cut to 2000
+                }
+                String sql = String.format(Locale.KOREA,"UPDATE tableEmotion SET msg = '%s', emotion = %d WHERE time = '%s'", tempStr, emotion, loadedTime);
                 Log.d("test", "msg data updated");
                 wdb.execSQL(sql);
             } else {

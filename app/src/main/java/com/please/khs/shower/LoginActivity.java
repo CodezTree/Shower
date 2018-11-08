@@ -43,8 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         Button Signupbutton = findViewById(R.id.signup_button);
         Button LoginButton = findViewById(R.id.Login_button);
 
-        SONAGIGlobalClass.Sdb = new SONAGIDatabase(getApplicationContext(), "SONAGI", null, 1);
-        SONAGIService.SDB = SONAGIGlobalClass.Sdb; // 포인터 일치 시킨다. static 끼리 포인터 공유되는지 확인해보자...
+        //SONAGIService.SDB = SONAGIGlobalClass.Sdb; // 포인터 일치 시킨다. static 끼리 포인터 공유되는지 확인해보자...
 
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(LoginActivity.this,

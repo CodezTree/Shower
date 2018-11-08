@@ -52,7 +52,7 @@ public class SONAGIService extends Service {
         contentWorker cW = new contentWorker();
         cW.start(); // Start Thread
 
-        SDB = SONAGIGlobalClass.Sdb;
+        SDB = new SONAGIDatabase(getApplicationContext(), "SONAGI", null, 1);
     }
 
 
@@ -177,8 +177,7 @@ public class SONAGIService extends Service {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(requestEmotionProcess);
     }
-
-    // Content Requestor
+    // Content Requester
 
     public void requestContent(int emotions) {
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -223,6 +222,7 @@ public class SONAGIService extends Service {
                 }
             }
         };
+
         RequestContent requestContent = new RequestContent(emotions, responseListener);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(requestContent);

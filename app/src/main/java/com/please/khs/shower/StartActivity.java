@@ -42,6 +42,7 @@ public class StartActivity extends AppCompatActivity {
             savePreferencesInt("EmotionAnalyzedTime", 0);
         }
 
+        SONAGIGlobalClass.Sdb = new SONAGIDatabase(getApplicationContext(), "SONAGI", null, 1);
         /*
 
         Preference 정리
